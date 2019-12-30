@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1 Grammar of Graphics for base plot | Documents for my persional packages</title>
+  <meta name="description" content="1 Grammar of Graphics for base plot | Documents for my persional packages" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1 Grammar of Graphics for base plot | Documents for my persional packages" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1 Grammar of Graphics for base plot | Documents for my persional packages" />
+  
+  
+  
+
+
+
+<meta name="date" content="2019-12-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="part"><span><b>Part I: Visualization</b></span></li>
+<li class="chapter" data-level="1" data-path="plotbb.html"><a href="plotbb.html"><i class="fa fa-check"></i><b>1</b> Grammar of Graphics for base plot</a><ul>
+<li class="chapter" data-level="1.1" data-path="plotbb.html"><a href="plotbb.html#aesthetic-mapping"><i class="fa fa-check"></i><b>1.1</b> Aesthetic mapping</a></li>
+<li class="chapter" data-level="1.2" data-path="plotbb.html"><a href="plotbb.html#geometric-layer"><i class="fa fa-check"></i><b>1.2</b> Geometric layer</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="plotbb.html"><a href="plotbb.html#todo"><i class="fa fa-check"></i><b>1.2.1</b> TODO</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="plotbb.html"><a href="plotbb.html#setting-labels"><i class="fa fa-check"></i><b>1.3</b> Setting labels</a></li>
+<li class="chapter" data-level="1.4" data-path="plotbb.html"><a href="plotbb.html#theme"><i class="fa fa-check"></i><b>1.4</b> Theme</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="plotbb.html"><a href="plotbb.html#todo-1"><i class="fa fa-check"></i><b>1.4.1</b> TODO</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="plotbb.html"><a href="plotbb.html#scale"><i class="fa fa-check"></i><b>1.5</b> Scale</a></li>
+<li class="chapter" data-level="1.6" data-path="plotbb.html"><a href="plotbb.html#legend"><i class="fa fa-check"></i><b>1.6</b> Legend</a></li>
+<li class="chapter" data-level="1.7" data-path="plotbb.html"><a href="plotbb.html#using-existing-code-with-plotbb"><i class="fa fa-check"></i><b>1.7</b> Using existing code with plotbb</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Documents for my persional packages</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="plotbb" class="section level1">
+<h1><span class="header-section-number">1</span> Grammar of Graphics for base plot</h1>
+<div id="aesthetic-mapping" class="section level2">
+<h2><span class="header-section-number">1.1</span> Aesthetic mapping</h2>
+<p><code>bb_aes()</code> for aesthetic mapping, that equivalents to <code>ggplot2::aes()</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="plotbb.html#cb1-1"></a><span class="kw">library</span>(plotbb)</span>
+<span id="cb1-2"><a href="plotbb.html#cb1-2"></a></span>
+<span id="cb1-3"><a href="plotbb.html#cb1-3"></a>p &lt;-<span class="st"> </span><span class="kw">bbplot</span>(mtcars, <span class="kw">bb_aes</span>(mpg, disp, <span class="dt">col=</span><span class="kw">factor</span>(cyl)))</span>
+<span id="cb1-4"><a href="plotbb.html#cb1-4"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">bb_grid</span>(<span class="dt">col=</span><span class="st">&#39;grey50&#39;</span>, <span class="dt">lty=</span><span class="st">&#39;dashed&#39;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">bb_point</span>(<span class="dt">pch=</span><span class="dv">19</span>)</span></code></pre></div>
+<p><img src="pkgdocs_files/figure-html/aes-1.png" width="672" /></p>
+</div>
+<div id="geometric-layer" class="section level2">
+<h2><span class="header-section-number">1.2</span> Geometric layer</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="plotbb.html#cb2-1"></a>p2 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">bb_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">bb_lm</span>(<span class="kw">bb_aes</span>(<span class="dt">group=</span>cyl), <span class="dt">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb2-2"><a href="plotbb.html#cb2-2"></a>p3 &lt;-<span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span><span class="kw">bb_lm</span>(<span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">lwd=</span><span class="dv">3</span>, <span class="dt">lty=</span><span class="st">&#39;dotted&#39;</span>)</span>
+<span id="cb2-3"><a href="plotbb.html#cb2-3"></a>p4 &lt;-<span class="st"> </span>p <span class="op">+</span><span class="st"> </span><span class="kw">bb_text</span>(<span class="kw">bb_aes</span>(<span class="dt">label=</span>cyl), <span class="dt">cex=</span><span class="dv">2</span>)</span>
+<span id="cb2-4"><a href="plotbb.html#cb2-4"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb2-5"><a href="plotbb.html#cb2-5"></a>p2; p3; p4</span></code></pre></div>
+<p><img src="pkgdocs_files/figure-html/layer-1.png" width="1152" /></p>
+<div id="todo" class="section level3">
+<h3><span class="header-section-number">1.2.1</span> TODO</h3>
+<ul>
+<li><input type="checkbox" disabled="" checked="" />
+bb_grid</li>
+<li><input type="checkbox" disabled="" checked="" />
+bb_point</li>
+<li><input type="checkbox" disabled="" checked="" />
+bb_lm</li>
+<li><input type="checkbox" disabled="" checked="" />
+bb_text</li>
+<li>more layers need to be added</li>
+</ul>
+</div>
+</div>
+<div id="setting-labels" class="section level2">
+<h2><span class="header-section-number">1.3</span> Setting labels</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="plotbb.html#cb3-1"></a>p2 <span class="op">+</span><span class="st"> </span><span class="kw">bb_labs</span>(<span class="dt">title =</span> <span class="st">&quot;hello&quot;</span>, <span class="dt">sub =</span> <span class="st">&quot;just for demo&quot;</span>,</span>
+<span id="cb3-2"><a href="plotbb.html#cb3-2"></a>              <span class="dt">xlab=</span><span class="st">&quot;this is xlab&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;this is ylab&quot;</span>) <span class="op">+</span></span>
+<span id="cb3-3"><a href="plotbb.html#cb3-3"></a><span class="st">  </span><span class="kw">bb_title</span>(<span class="st">&quot;hello world&quot;</span>) <span class="co"># last one rules            </span></span></code></pre></div>
+<p><img src="pkgdocs_files/figure-html/labs-1.png" width="672" /></p>
+</div>
+<div id="theme" class="section level2">
+<h2><span class="header-section-number">1.4</span> Theme</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="plotbb.html#cb4-1"></a>g &lt;-<span class="st"> </span>p2 <span class="op">+</span></span>
+<span id="cb4-2"><a href="plotbb.html#cb4-2"></a><span class="st">     </span><span class="kw">bb_theme</span>(<span class="dt">col.main=</span><span class="st">&quot;red&quot;</span>, <span class="dt">cex.main=</span><span class="dv">2</span>,</span>
+<span id="cb4-3"><a href="plotbb.html#cb4-3"></a>             <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>)) <span class="op">+</span></span>
+<span id="cb4-4"><a href="plotbb.html#cb4-4"></a><span class="st">     </span><span class="kw">bb_title</span>(<span class="st">&quot;applying graphics::par&quot;</span>)</span>
+<span id="cb4-5"><a href="plotbb.html#cb4-5"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb4-6"><a href="plotbb.html#cb4-6"></a><span class="kw">print</span>(g)</span>
+<span id="cb4-7"><a href="plotbb.html#cb4-7"></a>p2 <span class="op">+</span><span class="st"> </span><span class="kw">bb_title</span>(<span class="st">&quot;theme has no side effect&quot;</span>)</span></code></pre></div>
+<p><img src="pkgdocs_files/figure-html/theme-1.png" width="960" /></p>
+<p><code>bb_theme</code> has no side effect and will only apply to the <code>bbplot</code> object that it added to.
+This is very important for developing pre-defined themes.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="plotbb.html#cb5-1"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb5-2"><a href="plotbb.html#cb5-2"></a>p3 <span class="op">+</span><span class="st"> </span><span class="kw">bb_theme_expand</span>()</span>
+<span id="cb5-3"><a href="plotbb.html#cb5-3"></a><span class="kw">print</span>(p3)</span></code></pre></div>
+<p><img src="pkgdocs_files/figure-html/theme-expand-1.png" width="960" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="plotbb.html#cb6-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">bb_grid</span>(<span class="dt">col=</span><span class="st">&#39;grey50&#39;</span>, <span class="dt">lty=</span><span class="st">&#39;dashed&#39;</span>) <span class="op">+</span></span>
+<span id="cb6-2"><a href="plotbb.html#cb6-2"></a><span class="st">  </span><span class="kw">bb_point</span>(<span class="dt">pch=</span><span class="dv">19</span>) <span class="op">+</span></span>
+<span id="cb6-3"><a href="plotbb.html#cb6-3"></a><span class="st">  </span><span class="kw">bb_theme_expand</span>() <span class="op">+</span></span>
+<span id="cb6-4"><a href="plotbb.html#cb6-4"></a><span class="st">  </span><span class="kw">bb_theme_grey</span>()</span></code></pre></div>
+<p><img src="pkgdocs_files/figure-html/theme-grey-1.png" width="672" /></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="plotbb.html#cb7-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">bb_point</span>(<span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb7-2"><a href="plotbb.html#cb7-2"></a><span class="st">  </span><span class="kw">bb_theme_expand</span>() <span class="op">+</span></span>
+<span id="cb7-3"><a href="plotbb.html#cb7-3"></a><span class="st">  </span><span class="kw">bb_theme_deepblue</span>()</span></code></pre></div>
+<p><img src="pkgdocs_files/figure-html/theme-blue-1.png" width="672" /></p>
+<div id="todo-1" class="section level3">
+<h3><span class="header-section-number">1.4.1</span> TODO</h3>
+<ul>
+<li><input type="checkbox" disabled="" checked="" />
+bb_theme_expand</li>
+<li><input type="checkbox" disabled="" checked="" />
+bb_theme_grey</li>
+<li><input type="checkbox" disabled="" checked="" />
+bb_theme_deepblue</li>
+<li>develop more pre-defined themes</li>
+</ul>
+</div>
+</div>
+<div id="scale" class="section level2">
+<h2><span class="header-section-number">1.5</span> Scale</h2>
+<p>Not yet implemented</p>
+</div>
+<div id="legend" class="section level2">
+<h2><span class="header-section-number">1.6</span> Legend</h2>
+<p>Not yet implemented</p>
+</div>
+<div id="using-existing-code-with-plotbb" class="section level2">
+<h2><span class="header-section-number">1.7</span> Using existing code with plotbb</h2>
+<p>Suppose we have existing code to plot something:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="plotbb.html#cb8-1"></a><span class="kw">plot</span>(mtcars<span class="op">$</span>mpg, mtcars<span class="op">$</span>disp)</span>
+<span id="cb8-2"><a href="plotbb.html#cb8-2"></a><span class="kw">abline</span>(<span class="kw">lm</span>(disp <span class="op">~</span><span class="st"> </span>mpg, <span class="dt">data=</span>mtcars), <span class="dt">col=</span><span class="st">&#39;red&#39;</span>)</span></code></pre></div>
+<p>We can wrap the codes into a function:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="plotbb.html#cb9-1"></a>f &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb9-2"><a href="plotbb.html#cb9-2"></a>  <span class="kw">plot</span>(mtcars<span class="op">$</span>mpg, mtcars<span class="op">$</span>disp)</span>
+<span id="cb9-3"><a href="plotbb.html#cb9-3"></a>  <span class="kw">abline</span>(<span class="kw">lm</span>(disp <span class="op">~</span><span class="st"> </span>mpg, <span class="dt">data=</span>mtcars), <span class="dt">col=</span><span class="st">&#39;red&#39;</span>)</span>
+<span id="cb9-4"><a href="plotbb.html#cb9-4"></a>}</span></code></pre></div>
+<p>Then we can convert it to a <code>bbplot</code> object. The plot produced by the function will be used as the canvas, and we can apply theme and add layers to it:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="plotbb.html#cb10-1"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb10-2"><a href="plotbb.html#cb10-2"></a>d &lt;-<span class="st"> </span><span class="kw">group_by</span>(mtcars, cyl) <span class="op">%&gt;%</span></span>
+<span id="cb10-3"><a href="plotbb.html#cb10-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">xm=</span><span class="kw">mean</span>(mpg), <span class="dt">ym=</span><span class="kw">mean</span>(disp))</span>
+<span id="cb10-4"><a href="plotbb.html#cb10-4"></a></span>
+<span id="cb10-5"><a href="plotbb.html#cb10-5"></a>pp &lt;-<span class="st"> </span><span class="kw">as.bbplot</span>(f) <span class="op">+</span></span>
+<span id="cb10-6"><a href="plotbb.html#cb10-6"></a><span class="st">   </span><span class="kw">bb_theme_expand</span>() <span class="op">+</span></span>
+<span id="cb10-7"><a href="plotbb.html#cb10-7"></a><span class="st">   </span><span class="kw">bb_theme_grey</span>() <span class="op">+</span></span>
+<span id="cb10-8"><a href="plotbb.html#cb10-8"></a><span class="st">   </span><span class="kw">bb_lm</span>(<span class="kw">bb_aes</span>(mpg, disp, <span class="dt">group=</span>cyl, <span class="dt">col=</span><span class="kw">factor</span>(cyl)), <span class="dt">data=</span>mtcars, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">lty=</span><span class="st">&#39;dashed&#39;</span>) <span class="op">+</span></span>
+<span id="cb10-9"><a href="plotbb.html#cb10-9"></a><span class="st">   </span><span class="kw">bb_point</span>(<span class="kw">bb_aes</span>(xm, ym, <span class="dt">col=</span><span class="kw">factor</span>(cyl)), <span class="dt">data=</span>d, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb10-10"><a href="plotbb.html#cb10-10"></a><span class="st">   </span><span class="kw">bb_title</span>(<span class="st">&quot;hello plotbb&quot;</span>) <span class="op">+</span></span>
+<span id="cb10-11"><a href="plotbb.html#cb10-11"></a><span class="st">   </span><span class="kw">bb_grid</span>(<span class="dt">col=</span><span class="st">&#39;grey30&#39;</span>, <span class="dt">lty=</span><span class="st">&#39;dashed&#39;</span>) <span class="co">## grid lines were plotted as background by default</span></span></code></pre></div>
+<p>As there are many features currently not available, <code>plotbb</code> supports adding layers using base graphics commands that you are already familiar with. Any base graphics commands in formula, expression or function can be served as layer to be added to a <code>bbplot</code> object.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="plotbb.html#cb11-1"></a>pp <span class="op">+</span><span class="st"> </span>(<span class="op">~</span><span class="kw">points</span>(<span class="dv">30</span>, <span class="dv">400</span>, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">cex=</span><span class="dv">3</span>)) <span class="op">+</span></span>
+<span id="cb11-2"><a href="plotbb.html#cb11-2"></a><span class="st">   </span><span class="er">~</span><span class="kw">text</span>(<span class="dv">30</span>, <span class="dv">420</span>, <span class="dt">label=</span><span class="st">&quot;hae fun :)&quot;</span>, <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>, <span class="dt">cex=</span><span class="fl">1.2</span>)</span></code></pre></div>
+<p><img src="pkgdocs_files/figure-html/base-1.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

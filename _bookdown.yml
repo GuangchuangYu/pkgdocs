@@ -1,0 +1,6 @@
+book_filename: "pkgdocs"
+chapter_name: ""
+output_dir: docs
+delete_merged_file: true
+rmd_files: ["index.Rmd",
+  "plotbb.Rmd"]
