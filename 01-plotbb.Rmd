@@ -13,7 +13,7 @@ library(plotbb)
 `bb_aes()` for aesthetic mapping, that equivalents to `ggplot2::aes()`.
 
 
-```{r aes}
+```{r plotbb-aes}
 library(plotbb)
 
 p <- bbplot(mtcars, bb_aes(mpg, disp, col=factor(cyl)))
@@ -22,7 +22,7 @@ p + bb_grid(col='grey50', lty='dashed') + bb_point(pch=19)
 
 ## Geometric layer
 
-```{r layer, fig.width=12}
+```{r plotbb-layer, fig.width=12}
 p2 <- p + bb_point() + bb_lm(bb_aes(group=cyl), lwd=2)
 p3 <- p2 + bb_lm(col="red", lwd=3, lty='dotted')
 p4 <- p + bb_text(bb_aes(label=cyl), cex=2)
@@ -41,7 +41,7 @@ p2; p3; p4
 
 ## Setting labels
 
-```{r labs}
+```{r plotbb-labs}
 p2 + bb_labs(title = "hello", sub = "just for demo",
               xlab="this is xlab", ylab = "this is ylab") +
   bb_title("hello world") # last one rules            
@@ -49,7 +49,7 @@ p2 + bb_labs(title = "hello", sub = "just for demo",
 
 ## Theme
 
-```{r theme, fig.width=10}
+```{r plotbb-theme, fig.width=10}
 g <- p2 +
      bb_theme(col.main="red", cex.main=2,
              mar = c(4, 4, 3, 1)) +
@@ -63,20 +63,20 @@ p2 + bb_title("theme has no side effect")
 This is very important for developing pre-defined themes.
 
 
-```{r theme-expand, fig.width=10}
+```{r plotbb-theme-expand, fig.width=10}
 par(mfrow=c(1,2))
 p3 + bb_theme_expand()
 print(p3)
 ```
 
-```{r theme-grey}
+```{r plotbb-theme-grey}
 p + bb_grid(col='grey50', lty='dashed') +
   bb_point(pch=19) +
   bb_theme_expand() +
   bb_theme_grey()
 ```
 
-```{r theme-blue}
+```{r plotbb-theme-blue}
 p + bb_point(pch=19, cex=2) +
   bb_theme_expand() +
   bb_theme_deepblue()
@@ -135,7 +135,7 @@ pp <- as.bbplot(f) +
 As there are many features currently not available, `plotbb` supports adding layers using base graphics commands that you are already familiar with. Any base graphics commands in formula, expression or function can be served as layer to be added to a `bbplot` object.
 
 
-```{r base}
+```{r plotbb-base}
 pp + (~points(30, 400, pch=19, col="red", cex=3)) +
    ~text(30, 420, label="hae fun :)", col="blue", cex=1.2)
 ```

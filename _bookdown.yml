@@ -3,4 +3,5 @@ chapter_name: ""
 output_dir: docs
 delete_merged_file: true
 rmd_files: ["index.Rmd",
-  "plotbb.Rmd"]
+  "01-plotbb.Rmd",
+  "02-ggimage.Rmd"]

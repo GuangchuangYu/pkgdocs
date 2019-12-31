@@ -1,5 +1,5 @@
 ---
-title: 'Documents for my persional packages'
+title: 'Documents for my packages'
 author: 
 - name: Guangchuang Yu, PhD
   email: guangchuangyu@gmail.com
@@ -37,6 +37,9 @@ library(dplyr)
 library(plotbb)
 
 options(width=60)
+
+conflict_prefer("filter", "dplyr")
+conflict_prefer("as.data.frame", "BiocGenerics")
 
 
 CRANpkg <- function (pkg) {
