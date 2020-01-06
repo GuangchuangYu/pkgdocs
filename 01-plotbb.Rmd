@@ -5,7 +5,7 @@
 
 ```{r include=F}
 library(dplyr)
-library(plotbb)
+library(plotbb) 
 ```
 
 ## Aesthetic mapping
@@ -17,7 +17,7 @@ library(plotbb)
 library(plotbb)
 
 p <- bbplot(mtcars, bb_aes(mpg, disp, col=factor(cyl)))
-p + bb_grid(col='grey50', lty='dashed') + bb_point(pch=19)
+p + bb_grid(col='grey50', lty='dashed') + bb_point(pch=19) 
 ```
 
 ## Geometric layer
@@ -39,7 +39,7 @@ df <- data.frame(x = rep(1:10, 12),
                  stringsAsFactors = FALSE)
 par(mfrow=c(1,2))                 
 bbplot(df, bb_aes(x,y, col=values)) + bb_tile()
-bbplot(df, bb_aes(x,y, col=values)) + bb_tile(palette="YlOrRd")
+bbplot(df, bb_aes(x,y, col=values)) + bb_tile() + bb_scale_col_palette("YlOrRd") 
 ```
 
 ### TODO
@@ -57,7 +57,7 @@ bbplot(df, bb_aes(x,y, col=values)) + bb_tile(palette="YlOrRd")
 ```{r plotbb-labs}
 p2 + bb_labs(title = "hello", sub = "just for demo",
               xlab="this is xlab", ylab = "this is ylab") +
-  bb_title("hello world") # last one rules            
+  bb_title("hello world") # last one rules
 ```
 
 ## Theme
@@ -68,7 +68,7 @@ g <- p2 +
              mar = c(4, 4, 3, 1)) +
      bb_title("applying graphics::par")
 par(mfrow=c(1,2))
-print(g)
+print(g) 
 p2 + bb_title("theme has no side effect")
 ```
 
@@ -77,7 +77,7 @@ This is very important for developing pre-defined themes.
 
 
 ```{r plotbb-theme-expand, fig.width=10}
-par(mfrow=c(1,2))
+par(mfrow=c(1,2)) 
 p3 + bb_theme_expand()
 print(p3)
 ```
@@ -86,25 +86,26 @@ print(p3)
 p + bb_grid(col='grey50', lty='dashed') +
   bb_point(pch=19) +
   bb_theme_expand() +
-  bb_theme_grey()
+  bb_theme_grey() 
 ```
 
 ```{r plotbb-theme-blue}
 p + bb_point(pch=19, cex=2) +
   bb_theme_expand() +
-  bb_theme_deepblue()
+  bb_theme_deepblue() 
 ```
 
 ### TODO
 
-+ [x] bb_theme_expand
-+ [x] bb_theme_grey
-+ [x] bb_theme_deepblue
++ [x] `bb_theme_expand`
++ [x] `bb_theme_grey`
++ [x] `bb_theme_deepblue`
 + develop more pre-defined themes
 
 ## Scale
 
-Not yet implemented
++ [x] `bb_scale_col_palette`
++ more to be implemented
 
 ## Legend
 
@@ -123,7 +124,7 @@ abline(lm(disp ~ mpg, data=mtcars), col='red')
 We can wrap the codes into a function:
 
 ```{r}
-f <- function() {
+f <- function() { 
   plot(mtcars$mpg, mtcars$disp)
   abline(lm(disp ~ mpg, data=mtcars), col='red')
 }
@@ -132,7 +133,7 @@ f <- function() {
 Then we can convert it to a `bbplot` object. The plot produced by the function will be used as the canvas, and we can apply theme and add layers to it:
 
 ```{r}
-library(dplyr)
+library(dplyr) 
 d <- group_by(mtcars, cyl) %>%
   summarize(xm=mean(mpg), ym=mean(disp))
 
@@ -149,6 +150,6 @@ As there are many features currently not available, `plotbb` supports adding lay
 
 
 ```{r plotbb-base}
-pp + (~points(30, 400, pch=19, col="red", cex=3)) +
+pp + (~points(30, 400, pch=19, col="red", cex=3)) + 
    ~text(30, 420, label="hae fun :)", col="blue", cex=1.2)
 ```
