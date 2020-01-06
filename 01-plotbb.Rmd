@@ -32,12 +32,14 @@ p2; p3; p4
 
 ### Heatmap
 
-```{r plotbb-heatmap, fig.width=6, fig.height=6}
+```{r plotbb-heatmap, fig.width=12, fig.height=6}
 df <- data.frame(x = rep(1:10, 12),
                  y = rep(1:12, each = 10),
                  values = rnorm(120, mean = 10, sd = 5),
                  stringsAsFactors = FALSE)
+par(mfrow=c(1,2))                 
 bbplot(df, bb_aes(x,y, col=values)) + bb_tile()
+bbplot(df, bb_aes(x,y, col=values)) + bb_tile(palette="YlOrRd")
 ```
 
 ### TODO
