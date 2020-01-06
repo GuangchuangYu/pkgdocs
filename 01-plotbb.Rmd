@@ -30,12 +30,23 @@ par(mfrow=c(1,3))
 p2; p3; p4
 ```
 
+### Heatmap
+
+```{r plotbb-heatmap, fig.width=6, fig.height=6}
+df <- data.frame(x = rep(1:10, 12),
+                 y = rep(1:12, each = 10),
+                 values = rnorm(120, mean = 10, sd = 5),
+                 stringsAsFactors = FALSE)
+bbplot(df, bb_aes(x,y, col=values)) + bb_tile()
+```
+
 ### TODO
 
 + [x] bb_grid
 + [x] bb_point
 + [x] bb_lm
 + [x] bb_text
++ [x] bb_tile
 + more layers need to be added
 
 

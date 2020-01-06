@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2019-12-31" />
+<meta name="date" content="2020-01-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -132,7 +132,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="plotbb.html"><a href="plotbb.html"><i class="fa fa-check"></i><b>1</b> Grammar of Graphics for base plot</a><ul>
 <li class="chapter" data-level="1.1" data-path="plotbb.html"><a href="plotbb.html#aesthetic-mapping"><i class="fa fa-check"></i><b>1.1</b> Aesthetic mapping</a></li>
 <li class="chapter" data-level="1.2" data-path="plotbb.html"><a href="plotbb.html#geometric-layer"><i class="fa fa-check"></i><b>1.2</b> Geometric layer</a><ul>
-<li class="chapter" data-level="1.2.1" data-path="plotbb.html"><a href="plotbb.html#todo"><i class="fa fa-check"></i><b>1.2.1</b> TODO</a></li>
+<li class="chapter" data-level="1.2.1" data-path="plotbb.html"><a href="plotbb.html#heatmap"><i class="fa fa-check"></i><b>1.2.1</b> Heatmap</a></li>
+<li class="chapter" data-level="1.2.2" data-path="plotbb.html"><a href="plotbb.html#todo"><i class="fa fa-check"></i><b>1.2.2</b> TODO</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="plotbb.html"><a href="plotbb.html#setting-labels"><i class="fa fa-check"></i><b>1.3</b> Setting labels</a></li>
 <li class="chapter" data-level="1.4" data-path="plotbb.html"><a href="plotbb.html#theme"><i class="fa fa-check"></i><b>1.4</b> Theme</a><ul>
@@ -188,8 +189,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-4"><a href="plotbb.html#cb2-4"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
 <span id="cb2-5"><a href="plotbb.html#cb2-5"></a>p2; p3; p4</span></code></pre></div>
 <p><img src="pkgdocs_files/figure-html/plotbb-layer-1.png" width="1152" /></p>
+<div id="heatmap" class="section level3">
+<h3><span class="header-section-number">1.2.1</span> Heatmap</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="plotbb.html#cb3-1"></a>df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">12</span>),</span>
+<span id="cb3-2"><a href="plotbb.html#cb3-2"></a>                 <span class="dt">y =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">12</span>, <span class="dt">each =</span> <span class="dv">10</span>),</span>
+<span id="cb3-3"><a href="plotbb.html#cb3-3"></a>                 <span class="dt">values =</span> <span class="kw">rnorm</span>(<span class="dv">120</span>, <span class="dt">mean =</span> <span class="dv">10</span>, <span class="dt">sd =</span> <span class="dv">5</span>),</span>
+<span id="cb3-4"><a href="plotbb.html#cb3-4"></a>                 <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb3-5"><a href="plotbb.html#cb3-5"></a><span class="kw">bbplot</span>(df, <span class="kw">bb_aes</span>(x,y, <span class="dt">col=</span>values)) <span class="op">+</span><span class="st"> </span><span class="kw">bb_tile</span>()</span></code></pre></div>
+<p><img src="pkgdocs_files/figure-html/plotbb-heatmap-1.png" width="576" /></p>
+</div>
 <div id="todo" class="section level3">
-<h3><span class="header-section-number">1.2.1</span> TODO</h3>
+<h3><span class="header-section-number">1.2.2</span> TODO</h3>
 <ul>
 <li><input type="checkbox" disabled="" checked="" />
 bb_grid</li>
@@ -199,41 +209,43 @@ bb_point</li>
 bb_lm</li>
 <li><input type="checkbox" disabled="" checked="" />
 bb_text</li>
+<li><input type="checkbox" disabled="" checked="" />
+bb_tile</li>
 <li>more layers need to be added</li>
 </ul>
 </div>
 </div>
 <div id="setting-labels" class="section level2">
 <h2><span class="header-section-number">1.3</span> Setting labels</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="plotbb.html#cb3-1"></a>p2 <span class="op">+</span><span class="st"> </span><span class="kw">bb_labs</span>(<span class="dt">title =</span> <span class="st">&quot;hello&quot;</span>, <span class="dt">sub =</span> <span class="st">&quot;just for demo&quot;</span>,</span>
-<span id="cb3-2"><a href="plotbb.html#cb3-2"></a>              <span class="dt">xlab=</span><span class="st">&quot;this is xlab&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;this is ylab&quot;</span>) <span class="op">+</span></span>
-<span id="cb3-3"><a href="plotbb.html#cb3-3"></a><span class="st">  </span><span class="kw">bb_title</span>(<span class="st">&quot;hello world&quot;</span>) <span class="co"># last one rules            </span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="plotbb.html#cb4-1"></a>p2 <span class="op">+</span><span class="st"> </span><span class="kw">bb_labs</span>(<span class="dt">title =</span> <span class="st">&quot;hello&quot;</span>, <span class="dt">sub =</span> <span class="st">&quot;just for demo&quot;</span>,</span>
+<span id="cb4-2"><a href="plotbb.html#cb4-2"></a>              <span class="dt">xlab=</span><span class="st">&quot;this is xlab&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;this is ylab&quot;</span>) <span class="op">+</span></span>
+<span id="cb4-3"><a href="plotbb.html#cb4-3"></a><span class="st">  </span><span class="kw">bb_title</span>(<span class="st">&quot;hello world&quot;</span>) <span class="co"># last one rules            </span></span></code></pre></div>
 <p><img src="pkgdocs_files/figure-html/plotbb-labs-1.png" width="672" /></p>
 </div>
 <div id="theme" class="section level2">
 <h2><span class="header-section-number">1.4</span> Theme</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="plotbb.html#cb4-1"></a>g &lt;-<span class="st"> </span>p2 <span class="op">+</span></span>
-<span id="cb4-2"><a href="plotbb.html#cb4-2"></a><span class="st">     </span><span class="kw">bb_theme</span>(<span class="dt">col.main=</span><span class="st">&quot;red&quot;</span>, <span class="dt">cex.main=</span><span class="dv">2</span>,</span>
-<span id="cb4-3"><a href="plotbb.html#cb4-3"></a>             <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>)) <span class="op">+</span></span>
-<span id="cb4-4"><a href="plotbb.html#cb4-4"></a><span class="st">     </span><span class="kw">bb_title</span>(<span class="st">&quot;applying graphics::par&quot;</span>)</span>
-<span id="cb4-5"><a href="plotbb.html#cb4-5"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb4-6"><a href="plotbb.html#cb4-6"></a><span class="kw">print</span>(g)</span>
-<span id="cb4-7"><a href="plotbb.html#cb4-7"></a>p2 <span class="op">+</span><span class="st"> </span><span class="kw">bb_title</span>(<span class="st">&quot;theme has no side effect&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="plotbb.html#cb5-1"></a>g &lt;-<span class="st"> </span>p2 <span class="op">+</span></span>
+<span id="cb5-2"><a href="plotbb.html#cb5-2"></a><span class="st">     </span><span class="kw">bb_theme</span>(<span class="dt">col.main=</span><span class="st">&quot;red&quot;</span>, <span class="dt">cex.main=</span><span class="dv">2</span>,</span>
+<span id="cb5-3"><a href="plotbb.html#cb5-3"></a>             <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>)) <span class="op">+</span></span>
+<span id="cb5-4"><a href="plotbb.html#cb5-4"></a><span class="st">     </span><span class="kw">bb_title</span>(<span class="st">&quot;applying graphics::par&quot;</span>)</span>
+<span id="cb5-5"><a href="plotbb.html#cb5-5"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb5-6"><a href="plotbb.html#cb5-6"></a><span class="kw">print</span>(g)</span>
+<span id="cb5-7"><a href="plotbb.html#cb5-7"></a>p2 <span class="op">+</span><span class="st"> </span><span class="kw">bb_title</span>(<span class="st">&quot;theme has no side effect&quot;</span>)</span></code></pre></div>
 <p><img src="pkgdocs_files/figure-html/plotbb-theme-1.png" width="960" /></p>
 <p><code>bb_theme</code> has no side effect and will only apply to the <code>bbplot</code> object that it added to.
 This is very important for developing pre-defined themes.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="plotbb.html#cb5-1"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb5-2"><a href="plotbb.html#cb5-2"></a>p3 <span class="op">+</span><span class="st"> </span><span class="kw">bb_theme_expand</span>()</span>
-<span id="cb5-3"><a href="plotbb.html#cb5-3"></a><span class="kw">print</span>(p3)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="plotbb.html#cb6-1"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb6-2"><a href="plotbb.html#cb6-2"></a>p3 <span class="op">+</span><span class="st"> </span><span class="kw">bb_theme_expand</span>()</span>
+<span id="cb6-3"><a href="plotbb.html#cb6-3"></a><span class="kw">print</span>(p3)</span></code></pre></div>
 <p><img src="pkgdocs_files/figure-html/plotbb-theme-expand-1.png" width="960" /></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="plotbb.html#cb6-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">bb_grid</span>(<span class="dt">col=</span><span class="st">&#39;grey50&#39;</span>, <span class="dt">lty=</span><span class="st">&#39;dashed&#39;</span>) <span class="op">+</span></span>
-<span id="cb6-2"><a href="plotbb.html#cb6-2"></a><span class="st">  </span><span class="kw">bb_point</span>(<span class="dt">pch=</span><span class="dv">19</span>) <span class="op">+</span></span>
-<span id="cb6-3"><a href="plotbb.html#cb6-3"></a><span class="st">  </span><span class="kw">bb_theme_expand</span>() <span class="op">+</span></span>
-<span id="cb6-4"><a href="plotbb.html#cb6-4"></a><span class="st">  </span><span class="kw">bb_theme_grey</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="plotbb.html#cb7-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">bb_grid</span>(<span class="dt">col=</span><span class="st">&#39;grey50&#39;</span>, <span class="dt">lty=</span><span class="st">&#39;dashed&#39;</span>) <span class="op">+</span></span>
+<span id="cb7-2"><a href="plotbb.html#cb7-2"></a><span class="st">  </span><span class="kw">bb_point</span>(<span class="dt">pch=</span><span class="dv">19</span>) <span class="op">+</span></span>
+<span id="cb7-3"><a href="plotbb.html#cb7-3"></a><span class="st">  </span><span class="kw">bb_theme_expand</span>() <span class="op">+</span></span>
+<span id="cb7-4"><a href="plotbb.html#cb7-4"></a><span class="st">  </span><span class="kw">bb_theme_grey</span>()</span></code></pre></div>
 <p><img src="pkgdocs_files/figure-html/plotbb-theme-grey-1.png" width="672" /></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="plotbb.html#cb7-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">bb_point</span>(<span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="dv">2</span>) <span class="op">+</span></span>
-<span id="cb7-2"><a href="plotbb.html#cb7-2"></a><span class="st">  </span><span class="kw">bb_theme_expand</span>() <span class="op">+</span></span>
-<span id="cb7-3"><a href="plotbb.html#cb7-3"></a><span class="st">  </span><span class="kw">bb_theme_deepblue</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="plotbb.html#cb8-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">bb_point</span>(<span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb8-2"><a href="plotbb.html#cb8-2"></a><span class="st">  </span><span class="kw">bb_theme_expand</span>() <span class="op">+</span></span>
+<span id="cb8-3"><a href="plotbb.html#cb8-3"></a><span class="st">  </span><span class="kw">bb_theme_deepblue</span>()</span></code></pre></div>
 <p><img src="pkgdocs_files/figure-html/plotbb-theme-blue-1.png" width="672" /></p>
 <div id="todo-1" class="section level3">
 <h3><span class="header-section-number">1.4.1</span> TODO</h3>
@@ -259,28 +271,28 @@ bb_theme_deepblue</li>
 <div id="using-existing-code-with-plotbb" class="section level2">
 <h2><span class="header-section-number">1.7</span> Using existing code with plotbb</h2>
 <p>Suppose we have existing code to plot something:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="plotbb.html#cb8-1"></a><span class="kw">plot</span>(mtcars<span class="op">$</span>mpg, mtcars<span class="op">$</span>disp)</span>
-<span id="cb8-2"><a href="plotbb.html#cb8-2"></a><span class="kw">abline</span>(<span class="kw">lm</span>(disp <span class="op">~</span><span class="st"> </span>mpg, <span class="dt">data=</span>mtcars), <span class="dt">col=</span><span class="st">&#39;red&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="plotbb.html#cb9-1"></a><span class="kw">plot</span>(mtcars<span class="op">$</span>mpg, mtcars<span class="op">$</span>disp)</span>
+<span id="cb9-2"><a href="plotbb.html#cb9-2"></a><span class="kw">abline</span>(<span class="kw">lm</span>(disp <span class="op">~</span><span class="st"> </span>mpg, <span class="dt">data=</span>mtcars), <span class="dt">col=</span><span class="st">&#39;red&#39;</span>)</span></code></pre></div>
 <p>We can wrap the codes into a function:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="plotbb.html#cb9-1"></a>f &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
-<span id="cb9-2"><a href="plotbb.html#cb9-2"></a>  <span class="kw">plot</span>(mtcars<span class="op">$</span>mpg, mtcars<span class="op">$</span>disp)</span>
-<span id="cb9-3"><a href="plotbb.html#cb9-3"></a>  <span class="kw">abline</span>(<span class="kw">lm</span>(disp <span class="op">~</span><span class="st"> </span>mpg, <span class="dt">data=</span>mtcars), <span class="dt">col=</span><span class="st">&#39;red&#39;</span>)</span>
-<span id="cb9-4"><a href="plotbb.html#cb9-4"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="plotbb.html#cb10-1"></a>f &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb10-2"><a href="plotbb.html#cb10-2"></a>  <span class="kw">plot</span>(mtcars<span class="op">$</span>mpg, mtcars<span class="op">$</span>disp)</span>
+<span id="cb10-3"><a href="plotbb.html#cb10-3"></a>  <span class="kw">abline</span>(<span class="kw">lm</span>(disp <span class="op">~</span><span class="st"> </span>mpg, <span class="dt">data=</span>mtcars), <span class="dt">col=</span><span class="st">&#39;red&#39;</span>)</span>
+<span id="cb10-4"><a href="plotbb.html#cb10-4"></a>}</span></code></pre></div>
 <p>Then we can convert it to a <code>bbplot</code> object. The plot produced by the function will be used as the canvas, and we can apply theme and add layers to it:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="plotbb.html#cb10-1"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb10-2"><a href="plotbb.html#cb10-2"></a>d &lt;-<span class="st"> </span><span class="kw">group_by</span>(mtcars, cyl) <span class="op">%&gt;%</span></span>
-<span id="cb10-3"><a href="plotbb.html#cb10-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">xm=</span><span class="kw">mean</span>(mpg), <span class="dt">ym=</span><span class="kw">mean</span>(disp))</span>
-<span id="cb10-4"><a href="plotbb.html#cb10-4"></a></span>
-<span id="cb10-5"><a href="plotbb.html#cb10-5"></a>pp &lt;-<span class="st"> </span><span class="kw">as.bbplot</span>(f) <span class="op">+</span></span>
-<span id="cb10-6"><a href="plotbb.html#cb10-6"></a><span class="st">   </span><span class="kw">bb_theme_expand</span>() <span class="op">+</span></span>
-<span id="cb10-7"><a href="plotbb.html#cb10-7"></a><span class="st">   </span><span class="kw">bb_theme_grey</span>() <span class="op">+</span></span>
-<span id="cb10-8"><a href="plotbb.html#cb10-8"></a><span class="st">   </span><span class="kw">bb_lm</span>(<span class="kw">bb_aes</span>(mpg, disp, <span class="dt">group=</span>cyl, <span class="dt">col=</span><span class="kw">factor</span>(cyl)), <span class="dt">data=</span>mtcars, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">lty=</span><span class="st">&#39;dashed&#39;</span>) <span class="op">+</span></span>
-<span id="cb10-9"><a href="plotbb.html#cb10-9"></a><span class="st">   </span><span class="kw">bb_point</span>(<span class="kw">bb_aes</span>(xm, ym, <span class="dt">col=</span><span class="kw">factor</span>(cyl)), <span class="dt">data=</span>d, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="dv">2</span>) <span class="op">+</span></span>
-<span id="cb10-10"><a href="plotbb.html#cb10-10"></a><span class="st">   </span><span class="kw">bb_title</span>(<span class="st">&quot;hello plotbb&quot;</span>) <span class="op">+</span></span>
-<span id="cb10-11"><a href="plotbb.html#cb10-11"></a><span class="st">   </span><span class="kw">bb_grid</span>(<span class="dt">col=</span><span class="st">&#39;grey30&#39;</span>, <span class="dt">lty=</span><span class="st">&#39;dashed&#39;</span>) <span class="co">## grid lines were plotted as background by default</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="plotbb.html#cb11-1"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb11-2"><a href="plotbb.html#cb11-2"></a>d &lt;-<span class="st"> </span><span class="kw">group_by</span>(mtcars, cyl) <span class="op">%&gt;%</span></span>
+<span id="cb11-3"><a href="plotbb.html#cb11-3"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">xm=</span><span class="kw">mean</span>(mpg), <span class="dt">ym=</span><span class="kw">mean</span>(disp))</span>
+<span id="cb11-4"><a href="plotbb.html#cb11-4"></a></span>
+<span id="cb11-5"><a href="plotbb.html#cb11-5"></a>pp &lt;-<span class="st"> </span><span class="kw">as.bbplot</span>(f) <span class="op">+</span></span>
+<span id="cb11-6"><a href="plotbb.html#cb11-6"></a><span class="st">   </span><span class="kw">bb_theme_expand</span>() <span class="op">+</span></span>
+<span id="cb11-7"><a href="plotbb.html#cb11-7"></a><span class="st">   </span><span class="kw">bb_theme_grey</span>() <span class="op">+</span></span>
+<span id="cb11-8"><a href="plotbb.html#cb11-8"></a><span class="st">   </span><span class="kw">bb_lm</span>(<span class="kw">bb_aes</span>(mpg, disp, <span class="dt">group=</span>cyl, <span class="dt">col=</span><span class="kw">factor</span>(cyl)), <span class="dt">data=</span>mtcars, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">lty=</span><span class="st">&#39;dashed&#39;</span>) <span class="op">+</span></span>
+<span id="cb11-9"><a href="plotbb.html#cb11-9"></a><span class="st">   </span><span class="kw">bb_point</span>(<span class="kw">bb_aes</span>(xm, ym, <span class="dt">col=</span><span class="kw">factor</span>(cyl)), <span class="dt">data=</span>d, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">cex=</span><span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb11-10"><a href="plotbb.html#cb11-10"></a><span class="st">   </span><span class="kw">bb_title</span>(<span class="st">&quot;hello plotbb&quot;</span>) <span class="op">+</span></span>
+<span id="cb11-11"><a href="plotbb.html#cb11-11"></a><span class="st">   </span><span class="kw">bb_grid</span>(<span class="dt">col=</span><span class="st">&#39;grey30&#39;</span>, <span class="dt">lty=</span><span class="st">&#39;dashed&#39;</span>) <span class="co">## grid lines were plotted as background by default</span></span></code></pre></div>
 <p>As there are many features currently not available, <code>plotbb</code> supports adding layers using base graphics commands that you are already familiar with. Any base graphics commands in formula, expression or function can be served as layer to be added to a <code>bbplot</code> object.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="plotbb.html#cb11-1"></a>pp <span class="op">+</span><span class="st"> </span>(<span class="op">~</span><span class="kw">points</span>(<span class="dv">30</span>, <span class="dv">400</span>, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">cex=</span><span class="dv">3</span>)) <span class="op">+</span></span>
-<span id="cb11-2"><a href="plotbb.html#cb11-2"></a><span class="st">   </span><span class="er">~</span><span class="kw">text</span>(<span class="dv">30</span>, <span class="dv">420</span>, <span class="dt">label=</span><span class="st">&quot;hae fun :)&quot;</span>, <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>, <span class="dt">cex=</span><span class="fl">1.2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="plotbb.html#cb12-1"></a>pp <span class="op">+</span><span class="st"> </span>(<span class="op">~</span><span class="kw">points</span>(<span class="dv">30</span>, <span class="dv">400</span>, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">cex=</span><span class="dv">3</span>)) <span class="op">+</span></span>
+<span id="cb12-2"><a href="plotbb.html#cb12-2"></a><span class="st">   </span><span class="er">~</span><span class="kw">text</span>(<span class="dv">30</span>, <span class="dv">420</span>, <span class="dt">label=</span><span class="st">&quot;hae fun :)&quot;</span>, <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>, <span class="dt">cex=</span><span class="fl">1.2</span>)</span></code></pre></div>
 <p><img src="pkgdocs_files/figure-html/plotbb-base-1.png" width="672" /></p>
 
 </div>
