@@ -45,7 +45,7 @@ bbplot(df, bb_aes(x,y, col=values)) + bb_tile() + bb_scale_col_palette("YlOrRd")
   bb_title("applying a color palette") 
 bbplot(df, bb_aes(x,y, col=type)) + bb_tile() +
   bb_title("heatmap for discrete categorical values") 
-bbplot(df, bb_aes(x,y, col=values)) + bb_tile() + bb_text() +
+bbplot(df, bb_aes(x,y, col=values)) + bb_tile() + bb_text(col='black') +
   bb_title("heatmap with text labels") + bb_theme_expand()
 ```
 
