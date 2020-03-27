@@ -74,7 +74,7 @@ p + geom_flag(y = -2, aes(image = code)) +
 
 
 
-```{r geom-icon}
+```{r geom-icon, eval=F}
 d$icon=sample(c('ios-power', 'ios-wifi', 'ios-pie'), 10, replace=TRUE)
 ggplot(d, aes(x,y)) + geom_icon(aes(image=icon))
 ```

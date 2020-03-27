@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Documents for my packages</title>
-  <meta name="description" content="Documents for my packages" />
+  <title>4 Align Associated plots | Documents for my packages</title>
+  <meta name="description" content="4 Align Associated plots | Documents for my packages" />
   <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Documents for my packages" />
+  <meta property="og:title" content="4 Align Associated plots | Documents for my packages" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Documents for my packages" />
+  <meta name="twitter:title" content="4 Align Associated plots | Documents for my packages" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="plot-everything-in-ggplot.html"/>
 
-<link rel="next" href="plotbb.html"/>
 <script src="libs/header-attrs-2.1/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -181,29 +181,57 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Documents for my packages</h1>
-<p class="author"><em>Guangchuang Yu, PhD</em></p>
-<address class="author_afil">
-Department of Bioinformatics, School of Basic Medical Sciences, Southern Medical University<br><a class="author_email" href="mailto:#"><a href="mailto:guangchuangyu@gmail.com" class="email">guangchuangyu@gmail.com</a></a>
-</address>
-<p class="date"><em>2020-03-27</em></p>
+<div id="aplot" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Align Associated plots</h1>
+<p>For many times, we are not just aligning plots as what <code>cowplot</code> and <code>patchwork</code> did. We would like to align associated information that requires axes to be exactly matched in subplots.</p>
+<div id="a-first-glance" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> A first glance</h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="aplot.html#cb25-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb25-2"><a href="aplot.html#cb25-2"></a><span class="kw">library</span>(aplot)</span>
+<span id="cb25-3"><a href="aplot.html#cb25-3"></a></span>
+<span id="cb25-4"><a href="aplot.html#cb25-4"></a>p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mtcars, <span class="kw">aes</span>(mpg, disp)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</span>
+<span id="cb25-5"><a href="aplot.html#cb25-5"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mtcars, <span class="kw">aes</span>(mpg)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb25-6"><a href="aplot.html#cb25-6"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">fill=</span><span class="st">&#39;steelblue&#39;</span>, <span class="dt">alpha=</span>.<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb25-7"><a href="aplot.html#cb25-7"></a><span class="st">  </span>ggtree<span class="op">::</span><span class="kw">theme_dendrogram</span>()</span>
+<span id="cb25-8"><a href="aplot.html#cb25-8"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mtcars, <span class="kw">aes</span>(<span class="dt">x=</span><span class="dv">1</span>, <span class="dt">y=</span>disp)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb25-9"><a href="aplot.html#cb25-9"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">fill=</span><span class="st">&#39;firebrick&#39;</span>, <span class="dt">alpha=</span>.<span class="dv">5</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb25-10"><a href="aplot.html#cb25-10"></a><span class="st">  </span><span class="kw">theme_void</span>()</span>
+<span id="cb25-11"><a href="aplot.html#cb25-11"></a>ap &lt;-<span class="st"> </span>p <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb25-12"><a href="aplot.html#cb25-12"></a><span class="st">  </span><span class="kw">insert_top</span>(p2, <span class="dt">height=</span>.<span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb25-13"><a href="aplot.html#cb25-13"></a><span class="st">  </span><span class="kw">insert_right</span>(p3, <span class="dt">width=</span>.<span class="dv">1</span>)</span>
+<span id="cb25-14"><a href="aplot.html#cb25-14"></a><span class="co">## you can use `ggsave(filename=&quot;aplot.png&quot;, plot=ap)` to export the plot to image file</span></span>
+<span id="cb25-15"><a href="aplot.html#cb25-15"></a><span class="kw">print</span>(ap) <span class="co"># or just type ap will print the figure</span></span></code></pre></div>
+<p><img src="pkgdocs_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
-<div id="preface" class="section level1 unnumbered" number="">
-<h1>Preface</h1>
-<p>hello world</p>
+<div id="aligning-plots-with-a-tree" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Aligning plots with a tree</h2>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="aplot.html#cb26-1"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb26-2"><a href="aplot.html#cb26-2"></a><span class="kw">set.seed</span>(<span class="dv">2020-03-27</span>)</span>
+<span id="cb26-3"><a href="aplot.html#cb26-3"></a>x &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
+<span id="cb26-4"><a href="aplot.html#cb26-4"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">taxa=</span>x<span class="op">$</span>tip.label, <span class="dt">value =</span> <span class="kw">abs</span>(<span class="kw">rnorm</span>(<span class="dv">10</span>)))</span>
+<span id="cb26-5"><a href="aplot.html#cb26-5"></a>p &lt;-<span class="st"> </span><span class="kw">ggtree</span>(x) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>(<span class="dt">align =</span> <span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">xlim</span>(<span class="ot">NA</span>, <span class="dv">3</span>)</span>
+<span id="cb26-6"><a href="aplot.html#cb26-6"></a></span>
+<span id="cb26-7"><a href="aplot.html#cb26-7"></a><span class="kw">library</span>(ggstance)</span>
+<span id="cb26-8"><a href="aplot.html#cb26-8"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(d, <span class="kw">aes</span>(value, taxa)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_colh</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb26-9"><a href="aplot.html#cb26-9"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">expand=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) </span>
+<span id="cb26-10"><a href="aplot.html#cb26-10"></a></span>
+<span id="cb26-11"><a href="aplot.html#cb26-11"></a><span class="kw">library</span>(patchwork)</span>
+<span id="cb26-12"><a href="aplot.html#cb26-12"></a>p <span class="op">|</span><span class="st"> </span>p2</span></code></pre></div>
+<p><img src="pkgdocs_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Althought <code>patchwork</code> did a good job at aligning y-axes among the two plots, the output is not what we want if the bar heights are associated with external nodes on the tree. It is not so obvious for an ordinary user to extract the order of tip label from the tree to re-draw the barplot.</p>
+<p>If we insert a <code>ggtree</code> object in <code>aplot</code>, it will transform other plots in the same row (<code>insert_left</code> and <code>insert_right</code>) or same column (<code>insert_top</code> and <code>insert_bottom</code>) based on the tree structure.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="aplot.html#cb27-1"></a>p2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">insert_left</span>(p)</span></code></pre></div>
+<p><img src="pkgdocs_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 
 </div>
-
-
-
+</div>
             </section>
 
           </div>
         </div>
       </div>
+<a href="plot-everything-in-ggplot.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="plotbb.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

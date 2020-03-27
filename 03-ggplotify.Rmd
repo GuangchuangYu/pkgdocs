@@ -1,3 +1,6 @@
+# Plot everything in ggplot
+
+
 ```r
 require(ggplotify)
 require(magick)

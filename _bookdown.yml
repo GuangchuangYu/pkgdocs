@@ -4,4 +4,6 @@ output_dir: docs
 delete_merged_file: true
 rmd_files: ["index.Rmd",
   "01-plotbb.Rmd",
-  "02-ggimage.Rmd"]
+  "02-ggimage.Rmd",
+  "03-ggplotify.Rmd",
+  "04-aplot.Rmd"]
