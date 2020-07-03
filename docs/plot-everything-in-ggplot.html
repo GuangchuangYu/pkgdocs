@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Plot everything in ggplot | Documents for my packages</title>
   <meta name="description" content="3 Plot everything in ggplot | Documents for my packages" />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Plot everything in ggplot | Documents for my packages" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-03-31" />
+<meta name="date" content="2020-07-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
 <link rel="prev" href="ggimage.html"/>
 <link rel="next" href="aplot.html"/>
-<script src="libs/header-attrs-2.1/header-attrs.js"></script>
+<script src="libs/header-attrs-2.2/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -189,17 +189,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="plot-everything-in-ggplot" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Plot everything in ggplot</h1>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="plot-everything-in-ggplot.html#cb24-1"></a><span class="kw">require</span>(ggplotify)</span>
-<span id="cb24-2"><a href="plot-everything-in-ggplot.html#cb24-2"></a><span class="kw">require</span>(magick)</span>
-<span id="cb24-3"><a href="plot-everything-in-ggplot.html#cb24-3"></a></span>
-<span id="cb24-4"><a href="plot-everything-in-ggplot.html#cb24-4"></a>img &lt;-<span class="st"> </span>magick<span class="op">::</span><span class="kw">image_graph</span>(<span class="dv">600</span>, <span class="dv">600</span>, <span class="dt">res =</span> <span class="dv">96</span>)</span>
-<span id="cb24-5"><a href="plot-everything-in-ggplot.html#cb24-5"></a><span class="kw">invisible</span>(<span class="kw">lapply</span>(<span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">360</span>, <span class="dt">length.out=</span><span class="dv">30</span>), <span class="cf">function</span>(angle) {</span>
-<span id="cb24-6"><a href="plot-everything-in-ggplot.html#cb24-6"></a>    <span class="kw">print</span>(<span class="kw">as.ggplot</span>(<span class="op">~</span><span class="kw">barplot</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>), <span class="dt">angle=</span><span class="op">-</span>angle, <span class="dt">scale =</span> <span class="dv">1</span><span class="op">-</span>angle<span class="op">/</span><span class="dv">360</span>))</span>
-<span id="cb24-7"><a href="plot-everything-in-ggplot.html#cb24-7"></a>}))</span>
-<span id="cb24-8"><a href="plot-everything-in-ggplot.html#cb24-8"></a>grDevices<span class="op">::</span><span class="kw">dev.off</span>()</span>
-<span id="cb24-9"><a href="plot-everything-in-ggplot.html#cb24-9"></a></span>
-<span id="cb24-10"><a href="plot-everything-in-ggplot.html#cb24-10"></a>animation &lt;-<span class="st"> </span>magick<span class="op">::</span><span class="kw">image_animate</span>(img, <span class="dt">fps =</span> <span class="dv">2</span>)</span>
-<span id="cb24-11"><a href="plot-everything-in-ggplot.html#cb24-11"></a>magick<span class="op">::</span><span class="kw">image_write</span>(animation, <span class="st">&quot;rotate-scale.gif&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="plot-everything-in-ggplot.html#cb24-1" aria-hidden="true"></a><span class="kw">require</span>(ggplotify)</span>
+<span id="cb24-2"><a href="plot-everything-in-ggplot.html#cb24-2" aria-hidden="true"></a><span class="kw">require</span>(magick)</span>
+<span id="cb24-3"><a href="plot-everything-in-ggplot.html#cb24-3" aria-hidden="true"></a></span>
+<span id="cb24-4"><a href="plot-everything-in-ggplot.html#cb24-4" aria-hidden="true"></a>img &lt;-<span class="st"> </span>magick<span class="op">::</span><span class="kw">image_graph</span>(<span class="dv">600</span>, <span class="dv">600</span>, <span class="dt">res =</span> <span class="dv">96</span>)</span>
+<span id="cb24-5"><a href="plot-everything-in-ggplot.html#cb24-5" aria-hidden="true"></a><span class="kw">invisible</span>(<span class="kw">lapply</span>(<span class="kw">seq</span>(<span class="dv">1</span>, <span class="dv">360</span>, <span class="dt">length.out=</span><span class="dv">30</span>), <span class="cf">function</span>(angle) {</span>
+<span id="cb24-6"><a href="plot-everything-in-ggplot.html#cb24-6" aria-hidden="true"></a>    <span class="kw">print</span>(<span class="kw">as.ggplot</span>(<span class="op">~</span><span class="kw">barplot</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>), <span class="dt">angle=</span><span class="op">-</span>angle, <span class="dt">scale =</span> <span class="dv">1</span><span class="op">-</span>angle<span class="op">/</span><span class="dv">360</span>))</span>
+<span id="cb24-7"><a href="plot-everything-in-ggplot.html#cb24-7" aria-hidden="true"></a>}))</span>
+<span id="cb24-8"><a href="plot-everything-in-ggplot.html#cb24-8" aria-hidden="true"></a>grDevices<span class="op">::</span><span class="kw">dev.off</span>()</span>
+<span id="cb24-9"><a href="plot-everything-in-ggplot.html#cb24-9" aria-hidden="true"></a></span>
+<span id="cb24-10"><a href="plot-everything-in-ggplot.html#cb24-10" aria-hidden="true"></a>animation &lt;-<span class="st"> </span>magick<span class="op">::</span><span class="kw">image_animate</span>(img, <span class="dt">fps =</span> <span class="dv">2</span>)</span>
+<span id="cb24-11"><a href="plot-everything-in-ggplot.html#cb24-11" aria-hidden="true"></a>magick<span class="op">::</span><span class="kw">image_write</span>(animation, <span class="st">&quot;rotate-scale.gif&quot;</span>)</span></code></pre></div>
 <p><img src="figures/rotate-scale.gif" /></p>
 
 </div>

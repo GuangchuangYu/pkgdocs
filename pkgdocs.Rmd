@@ -1,3 +1,384 @@
+---
+title: 'Documents for my packages'
+author: 
+- name: Guangchuang Yu, PhD
+  email: guangchuangyu@gmail.com
+  affiliation: Department of Bioinformatics, School of Basic Medical Sciences, Southern Medical University
+date: "`r Sys.Date()`"
+knit: "bookdown::render_book"
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook:
+  bookdown::pdf_book:
+    dev: "cairo_pdf"
+    latex_engine: xelatex
+bibliography: references.bib
+biblio-style: apalike
+always_allow_html: yes
+toc_appendix: yes
+fontsize: "12pt"
+mainfont: Times New Roman
+sansfont: Arial
+monofontoptions: "Scale=0.7"
+linestretch: 1.5
+toc-depth: 2
+link-citations: yes
+documentclass: book
+papersize: A4
+classoption: twoside
+highlight_bw: yes
+geometry: "left=35mm,right=35mm,top=25mm,bottom=25mm"
+---
+
+
+```{r include=FALSE}
+library(conflicted)
+library(dplyr)
+library(plotbb)
+
+options(width=60)
+
+conflict_prefer("filter", "dplyr")
+conflict_prefer("as.data.frame", "BiocGenerics")
+
+
+CRANpkg <- function (pkg) {
+    cran <- "https://CRAN.R-project.org/package"
+    fmt <- "[%s](%s=%s)"
+    sprintf(fmt, pkg, cran, pkg)
+}
+
+Biocpkg <- function (pkg) {
+    sprintf("[%s](http://bioconductor.org/packages/%s)", pkg, pkg)
+}
+
+Githubpkg <- function (user, pkg) {
+    gh <- "https://github.com"
+    fmt <- "[%s](%s/%s/%s)"
+    sprintf(fmt, pkg, gh, user, pkg)
+}
+
+library(knitr)
+opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
+```
+
+
+
+
+# Preface {-}
+
+hello world
+
+<!--chapter:end:index.Rmd-->
+
+# (PART\*) Part I: Visualization {-}
+
+# Grammar of Graphics for base plot {#plotbb}
+
+
+```{r include=F}
+library(dplyr)
+library(plotbb) 
+```
+
+## Aesthetic mapping
+
+`bb_aes()` for aesthetic mapping, that equivalents to `ggplot2::aes()`.
+
+
+```{r plotbb-aes}
+library(plotbb)
+
+p <- bbplot(mtcars, bb_aes(mpg, disp, col=factor(cyl)))
+p + bb_grid(col='grey50', lty='dashed') + bb_point(pch=19) 
+```
+
+## Geometric layer
+
+```{r plotbb-layer, fig.width=12}
+p2 <- p + bb_point() + bb_lm(bb_aes(group=cyl), lwd=2)
+p3 <- p2 + bb_lm(col="red", lwd=3, lty='dotted')
+p4 <- p + bb_text(bb_aes(label=cyl), cex=2)
+par(mfrow=c(1,3))
+p2; p3; p4
+```
+
+### Heatmap
+
+```{r plotbb-heatmap, fig.width=8, fig.height=8}
+df <- data.frame(x = rep(1:10, 12),
+                 y = rep(1:12, each = 10),
+                 values = rnorm(120, mean = 10, sd = 5),
+                 type = sample(LETTERS[1:5], 120, replace=TRUE),
+                 stringsAsFactors = FALSE)
+par(mfrow=c(2,2))
+bbplot(df, bb_aes(x,y, col=values)) + bb_tile() + 
+  bb_title("heatmap for continuous numerical values") 
+bbplot(df, bb_aes(x,y, col=values)) + bb_tile() + bb_scale_col_palette("YlOrRd") +
+  bb_title("applying a color palette") 
+bbplot(df, bb_aes(x,y, col=type)) + bb_tile() +
+  bb_title("heatmap for discrete categorical values") 
+bbplot(df, bb_aes(x,y, col=values)) + bb_tile() + bb_text(col='black') +
+  bb_title("heatmap with text labels") + bb_theme_expand()
+```
+
+### TODO
+
++ [x] bb_grid
++ [x] bb_point
++ [x] bb_lm
++ [x] bb_text
++ [x] bb_tile
++ more layers need to be added
+
+
+## Setting labels
+
+```{r plotbb-labs}
+p2 + bb_labs(title = "hello", sub = "just for demo",
+              xlab="this is xlab", ylab = "this is ylab") +
+  bb_title("hello world") # last one rules
+```
+
+## Theme
+
+```{r plotbb-theme, fig.width=10}
+g <- p2 +
+     bb_theme(col.main="red", cex.main=2,
+             mar = c(4, 4, 3, 1)) +
+     bb_title("applying graphics::par")
+par(mfrow=c(1,2))
+print(g) 
+p2 + bb_title("theme has no side effect")
+```
+
+`bb_theme` has no side effect and will only apply to the `bbplot` object that it added to.
+This is very important for developing pre-defined themes.
+
+
+```{r plotbb-theme-expand, fig.width=10}
+par(mfrow=c(1,2)) 
+p3 + bb_theme_expand()
+print(p3)
+```
+
+```{r plotbb-theme-grey}
+p + bb_grid(col='grey50', lty='dashed') +
+  bb_point(pch=19) +
+  bb_theme_expand() +
+  bb_theme_grey() 
+```
+
+```{r plotbb-theme-blue}
+p + bb_point(pch=19, cex=2) +
+  bb_theme_expand() +
+  bb_theme_deepblue() 
+```
+
+### TODO
+
++ [x] `bb_theme_expand`
++ [x] `bb_theme_grey`
++ [x] `bb_theme_deepblue`
++ develop more pre-defined themes
+
+## Scale
+
++ [x] `bb_scale_col_palette`
++ more to be implemented
+
+## Legend
+
+Not yet implemented
+
+
+## Using existing code with plotbb
+
+Suppose we have existing code to plot something:
+
+```r
+plot(mtcars$mpg, mtcars$disp)
+abline(lm(disp ~ mpg, data=mtcars), col='red')
+```
+
+We can wrap the codes into a function:
+
+```{r}
+f <- function() { 
+  plot(mtcars$mpg, mtcars$disp)
+  abline(lm(disp ~ mpg, data=mtcars), col='red')
+}
+```
+
+Then we can convert it to a `bbplot` object. The plot produced by the function will be used as the canvas, and we can apply theme and add layers to it:
+
+```{r}
+library(dplyr) 
+d <- group_by(mtcars, cyl) %>%
+  summarize(xm=mean(mpg), ym=mean(disp))
+
+pp <- as.bbplot(f) +
+   bb_theme_expand() +
+   bb_theme_grey() +
+   bb_lm(bb_aes(mpg, disp, group=cyl, col=factor(cyl)), data=mtcars, lwd=2, lty='dashed') +
+   bb_point(bb_aes(xm, ym, col=factor(cyl)), data=d, pch=19, cex=2) +
+   bb_title("hello plotbb") +
+   bb_grid(col='grey30', lty='dashed') ## grid lines were plotted as background by default
+```
+
+As there are many features currently not available, `plotbb` supports adding layers using base graphics commands that you are already familiar with. Any base graphics commands in formula, expression or function can be served as layer to be added to a `bbplot` object.
+
+
+```{r plotbb-base}
+pp + (~points(30, 400, pch=19, col="red", cex=3)) + 
+   ~text(30, 420, label="hae fun :)", col="blue", cex=1.2)
+```
+
+<!--chapter:end:01-plotbb.Rmd-->
+
+# Use image in ggplot2 {#ggimage}
+
+```{r echo=FALSE, results="hide", message=FALSE}
+library("ggplot2")
+library("ggimage")
+```
+
+
+## geom_image
+
+```{r geom-image, warning=FALSE}
+library("ggplot2")
+library("ggimage")
+
+set.seed(2017-02-21)
+img <- list.files(system.file("extdata", package="ggimage"),
+                  pattern="png", full.names=TRUE)
+d <- data.frame(x = rnorm(10),
+                y = rnorm(10),
+                image = sample(img, size=10, replace = TRUE)
+                )
+
+ggplot(d, aes(x, y)) + geom_image(aes(image=image), size=.05)
+ggplot(d, aes(x, y)) + geom_image(aes(image=image), size=.05, by='height')
+
+ggplot(d, aes(x, y)) + geom_image(image=d$image[1])
+d$size=seq(.05, .15, length.out=10)
+ggplot(d, aes(x, y)) + geom_image(aes(image=image, size=I(size)))
+
+ggplot(d, aes(x, y)) + geom_image(aes(image=image), color="firebrick")
+```
+
+## geom_pokemon
+
+```{r geom-pokemon}
+ggplot(d, aes(x, y)) + geom_pokemon(aes(image=ifelse(x>0, 'pikachu', 'tauros')), size=.1)
+```
+
+## geom_emoji
+
+```{r geom-emoji}
+set.seed(123)
+iris2 <- iris[sample(1:nrow(iris), 30),]
+model <- lm(Petal.Length ~ Sepal.Length, data=iris2)
+iris2$fitted <- predict(model)
+
+ggplot(iris2, aes(x = Sepal.Length, y = Petal.Length)) +
+  geom_linerange(aes(ymin = fitted, ymax = Petal.Length),
+                 colour = "purple") +
+  geom_abline(intercept = model$coefficients[1],
+              slope = model$coefficients[2]) +
+    geom_emoji(aes(image = ifelse(abs(Petal.Length-fitted) > 0.5, '1f622', '1f600')))
+```
+
+
+## geom_phylopic
+
+Please visit <https://yulab-smu.github.io/treedata-book/chapter8.html#phylopic> for more details.
+
+
+## geom_flag
+
+```{r geom-flag}
+f <- system.file("extdata/medals.txt", package="ggimage")
+medals <- read.table(f, header=TRUE)
+p <- ggplot(medals, aes(Country, count)) + geom_col(aes(fill = medal), width = .8)
+
+p + geom_flag(y = -2, aes(image = code)) +
+    coord_flip() + expand_limits(y = -2)  +
+    scale_fill_manual(values = c("Gold" = "gold", "Bronze" = "#cd7f32", "Silver" = "#C0C0C0"))
+```
+
+## geom_icon
+
+
+
+```{r geom-icon, eval=F}
+d$icon=sample(c('ios-power', 'ios-wifi', 'ios-pie'), 10, replace=TRUE)
+ggplot(d, aes(x,y)) + geom_icon(aes(image=icon))
+```
+
+see also <https://ionicons.com/>.
+
+## geom_subview
+
+```{r geom-subview}
+library(tibble)
+dd <- data.frame(x=LETTERS[1:3], y=1:3)
+pie <- ggplot(dd, aes(x=1, y, fill=x)) + geom_bar(stat="identity", width=1) + coord_polar(theta="y") +
+    theme_void() + theme(legend.position="none") + theme_transparent()
+
+df <- tibble(x = sample(2:9),
+             y = sample(2:9),
+             width = sample(seq(0.5, 3, length.out=length(x))),
+             pie = list(pie))
+p <- ggplot(data=data.frame(x=c(0, 10), y=c(0, 10)), aes(x, y))+geom_blank()
+p + geom_subview(aes(x=x, y=y, subview=pie, width=width, height=width), data=df)
+```
+
+## geom_twitchemote
+
+```{r geom-twitchemote}
+set.seed(1)
+x <- 1:10
+y <- x + rnorm(10, sd = 1)
+notlikethis <- data.frame(x = x, y = y)
+n_pals      <- 200
+pals        <- data.frame(
+  x = runif(n_pals, -2, 12), y = runif(n_pals, -2, 12),
+  pal = sample(c("wutface", "kappa", "pogchamp"), size = n_pals, replace = TRUE)
+)
+
+ggplot(notlikethis, aes(x = x, y = y)) +
+  geom_twitchemote(data = pals,
+                   aes(image = 'pogchamp'), size = 0.03, alpha = 0.3) +
+  geom_twitchemote(aes(image = 'notlikethis'), size = 0.15) +
+  geom_smooth()
+```
+
+<!--chapter:end:02-ggimage.Rmd-->
+
+# Plot everything in ggplot
+
+
+```r
+require(ggplotify)
+require(magick)
+
+img <- magick::image_graph(600, 600, res = 96)
+invisible(lapply(seq(1, 360, length.out=30), function(angle) {
+    print(as.ggplot(~barplot(1:5), angle=-angle, scale = 1-angle/360))
+}))
+grDevices::dev.off()
+
+animation <- magick::image_animate(img, fps = 2)
+magick::image_write(animation, "rotate-scale.gif")
+```
+
+![](figures/rotate-scale.gif)
+
+
+<!--chapter:end:03-ggplotify.Rmd-->
+
 # Align Associated plots {#aplot}
 
 
@@ -320,4 +701,7 @@ dot_plot %>%
   insert_top(ggtree_plot_col, height=.1)
 ```
 
+
+
+<!--chapter:end:04-aplot.Rmd-->
 
