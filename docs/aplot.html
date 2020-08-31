@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4 Align Associated plots | Documents for my packages</title>
   <meta name="description" content="4 Align Associated plots | Documents for my packages" />
-  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 Align Associated plots | Documents for my packages" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 
 
 
-<meta name="date" content="2020-07-03" />
+<meta name="date" content="2020-08-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
 <link rel="prev" href="plot-everything-in-ggplot.html"/>
 
-<script src="libs/header-attrs-2.2/header-attrs.js"></script>
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,6 +50,7 @@
 
 
 
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 
 <style type="text/css">
@@ -298,76 +299,148 @@ Figure 4.2: <strong>Setting y-axis limits for aligning plots.</strong> Composite
 <p>If we insert a <code>ggtree</code> object in <code>aplot</code>, it will transform other plots in the same row (<code>insert_left</code> and <code>insert_right</code>) or same column (<code>insert_top</code> and <code>insert_bottom</code>) based on the tree structure.</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="aplot.html#cb31-1" aria-hidden="true"></a>p2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">insert_left</span>(p)</span></code></pre></div>
 <p><img src="pkgdocs_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Example from <a href="https://github.com/YuLab-SMU/ggtree/issues/339" class="uri">https://github.com/YuLab-SMU/ggtree/issues/339</a>.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="aplot.html#cb32-1" aria-hidden="true"></a><span class="kw">require</span>(ggtree)</span>
+<span id="cb32-2"><a href="aplot.html#cb32-2" aria-hidden="true"></a><span class="kw">require</span>(ggplot2)</span>
+<span id="cb32-3"><a href="aplot.html#cb32-3" aria-hidden="true"></a><span class="kw">require</span>(dplyr)</span>
+<span id="cb32-4"><a href="aplot.html#cb32-4" aria-hidden="true"></a><span class="kw">require</span>(gggenes)</span>
+<span id="cb32-5"><a href="aplot.html#cb32-5" aria-hidden="true"></a></span>
+<span id="cb32-6"><a href="aplot.html#cb32-6" aria-hidden="true"></a>tree &lt;-<span class="st"> </span><span class="kw">read.tree</span>(<span class="st">&quot;data/nbh.nwk&quot;</span>)</span>
+<span id="cb32-7"><a href="aplot.html#cb32-7" aria-hidden="true"></a>nbh &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/nbh.csv&quot;</span>)</span>
+<span id="cb32-8"><a href="aplot.html#cb32-8" aria-hidden="true"></a></span>
+<span id="cb32-9"><a href="aplot.html#cb32-9" aria-hidden="true"></a>tree_plot &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tree) <span class="op">+</span></span>
+<span id="cb32-10"><a href="aplot.html#cb32-10" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_tiplab</span>(<span class="kw">aes</span>(<span class="dt">label=</span>label))  </span>
+<span id="cb32-11"><a href="aplot.html#cb32-11" aria-hidden="true"></a></span>
+<span id="cb32-12"><a href="aplot.html#cb32-12" aria-hidden="true"></a></span>
+<span id="cb32-13"><a href="aplot.html#cb32-13" aria-hidden="true"></a>nbh_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(</span>
+<span id="cb32-14"><a href="aplot.html#cb32-14" aria-hidden="true"></a>  (nbh <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(label, block_id,pid,start,end,strand) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>()),</span>
+<span id="cb32-15"><a href="aplot.html#cb32-15" aria-hidden="true"></a>  <span class="kw">aes</span>(<span class="dt">xmin =</span> start, <span class="dt">xmax =</span> end, <span class="dt">y =</span> block_id, <span class="dt">forward =</span> strand) <span class="co"># as_factor(block_id)</span></span>
+<span id="cb32-16"><a href="aplot.html#cb32-16" aria-hidden="true"></a>) <span class="op">+</span></span>
+<span id="cb32-17"><a href="aplot.html#cb32-17" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_gene_arrow</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb32-18"><a href="aplot.html#cb32-18" aria-hidden="true"></a><span class="st">  </span><span class="co">#scale_fill_brewer(palette = &quot;Set3&quot;) +</span></span>
+<span id="cb32-19"><a href="aplot.html#cb32-19" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme_genes</span>() <span class="op">%+replace%</span><span class="st"> </span></span>
+<span id="cb32-20"><a href="aplot.html#cb32-20" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid.major.y =</span> <span class="kw">element_line</span>(<span class="dt">colour =</span> <span class="ot">NULL</span>)) <span class="op">+</span><span class="st"> </span><span class="co"># , linetype = &quot;dotted&quot;)) +</span></span>
+<span id="cb32-21"><a href="aplot.html#cb32-21" aria-hidden="true"></a><span class="st">  </span><span class="co">#theme_classic() +</span></span>
+<span id="cb32-22"><a href="aplot.html#cb32-22" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(</span>
+<span id="cb32-23"><a href="aplot.html#cb32-23" aria-hidden="true"></a>    <span class="dt">axis.title.x=</span><span class="kw">element_blank</span>(),</span>
+<span id="cb32-24"><a href="aplot.html#cb32-24" aria-hidden="true"></a>    <span class="co">#axis.text.x=element_blank(),</span></span>
+<span id="cb32-25"><a href="aplot.html#cb32-25" aria-hidden="true"></a>    <span class="dt">axis.ticks.x=</span><span class="kw">element_blank</span>(), </span>
+<span id="cb32-26"><a href="aplot.html#cb32-26" aria-hidden="true"></a>    <span class="co">#axis.line.x = element_blank(),</span></span>
+<span id="cb32-27"><a href="aplot.html#cb32-27" aria-hidden="true"></a>    <span class="dt">axis.title.y=</span><span class="kw">element_blank</span>(),</span>
+<span id="cb32-28"><a href="aplot.html#cb32-28" aria-hidden="true"></a>    <span class="co">#axis.text.y=element_blank(),</span></span>
+<span id="cb32-29"><a href="aplot.html#cb32-29" aria-hidden="true"></a>    <span class="dt">axis.ticks.y=</span><span class="kw">element_blank</span>(), </span>
+<span id="cb32-30"><a href="aplot.html#cb32-30" aria-hidden="true"></a>    <span class="dt">axis.line.y =</span> <span class="kw">element_blank</span>()</span>
+<span id="cb32-31"><a href="aplot.html#cb32-31" aria-hidden="true"></a>  ) </span>
+<span id="cb32-32"><a href="aplot.html#cb32-32" aria-hidden="true"></a></span>
+<span id="cb32-33"><a href="aplot.html#cb32-33" aria-hidden="true"></a></span>
+<span id="cb32-34"><a href="aplot.html#cb32-34" aria-hidden="true"></a><span class="kw">require</span>(aplot)</span>
+<span id="cb32-35"><a href="aplot.html#cb32-35" aria-hidden="true"></a></span>
+<span id="cb32-36"><a href="aplot.html#cb32-36" aria-hidden="true"></a><span class="kw">insert_left</span>(nbh_plot, tree_plot)</span></code></pre></div>
+<p><img src="pkgdocs_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Example from <a href="https://github.com/YuLab-SMU/ggtree/issues/313" class="uri">https://github.com/YuLab-SMU/ggtree/issues/313</a>.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="aplot.html#cb33-1" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">20200618</span>)</span>
+<span id="cb33-2"><a href="aplot.html#cb33-2" aria-hidden="true"></a></span>
+<span id="cb33-3"><a href="aplot.html#cb33-3" aria-hidden="true"></a><span class="co">## Create a random tree</span></span>
+<span id="cb33-4"><a href="aplot.html#cb33-4" aria-hidden="true"></a>tre &lt;-<span class="st"> </span><span class="kw">rtree</span>(<span class="dv">10</span>)</span>
+<span id="cb33-5"><a href="aplot.html#cb33-5" aria-hidden="true"></a>tre<span class="op">$</span>tip.label &lt;-<span class="st"> </span>letters[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</span>
+<span id="cb33-6"><a href="aplot.html#cb33-6" aria-hidden="true"></a></span>
+<span id="cb33-7"><a href="aplot.html#cb33-7" aria-hidden="true"></a><span class="co">## Build matrix with some random numbers in long format so can be plotted as &quot;heatmap&quot; using geom_tile</span></span>
+<span id="cb33-8"><a href="aplot.html#cb33-8" aria-hidden="true"></a>gmat &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">x =</span> letters[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>], <span class="dt">y =</span> letters[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])</span>
+<span id="cb33-9"><a href="aplot.html#cb33-9" aria-hidden="true"></a>gmat<span class="op">$</span>v &lt;-<span class="st"> </span><span class="kw">rexp</span>(<span class="dv">100</span>, <span class="dt">rate=</span>.<span class="dv">1</span>)</span>
+<span id="cb33-10"><a href="aplot.html#cb33-10" aria-hidden="true"></a></span>
+<span id="cb33-11"><a href="aplot.html#cb33-11" aria-hidden="true"></a><span class="co">## Generate some reandom numbres for a line plot</span></span>
+<span id="cb33-12"><a href="aplot.html#cb33-12" aria-hidden="true"></a>gline &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> letters[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>], <span class="dt">y =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">2</span>))</span>
+<span id="cb33-13"><a href="aplot.html#cb33-13" aria-hidden="true"></a></span>
+<span id="cb33-14"><a href="aplot.html#cb33-14" aria-hidden="true"></a><span class="co">## Generate some random percentages for a bar plot</span></span>
+<span id="cb33-15"><a href="aplot.html#cb33-15" aria-hidden="true"></a>gbar &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> letters[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>], <span class="dt">y =</span> <span class="kw">round</span>(<span class="kw">runif</span>(<span class="dv">10</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>,<span class="dv">1</span>))</span>
+<span id="cb33-16"><a href="aplot.html#cb33-16" aria-hidden="true"></a></span>
+<span id="cb33-17"><a href="aplot.html#cb33-17" aria-hidden="true"></a><span class="co">## Construct ggtree</span></span>
+<span id="cb33-18"><a href="aplot.html#cb33-18" aria-hidden="true"></a>ptre &lt;-<span class="st"> </span><span class="kw">ggtree</span>(tre) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tiplab</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb33-19"><a href="aplot.html#cb33-19" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_nodepoint</span>(<span class="dt">colour =</span> <span class="st">&#39;firebrick&#39;</span>, <span class="dt">size=</span><span class="dv">3</span>) </span>
+<span id="cb33-20"><a href="aplot.html#cb33-20" aria-hidden="true"></a></span>
+<span id="cb33-21"><a href="aplot.html#cb33-21" aria-hidden="true"></a></span>
+<span id="cb33-22"><a href="aplot.html#cb33-22" aria-hidden="true"></a><span class="co">## Constuct companion plots</span></span>
+<span id="cb33-23"><a href="aplot.html#cb33-23" aria-hidden="true"></a>pmat &lt;-<span class="st"> </span><span class="kw">ggplot</span>(gmat, <span class="kw">aes</span>(x,y, <span class="dt">fill=</span>v)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tile</span>()</span>
+<span id="cb33-24"><a href="aplot.html#cb33-24" aria-hidden="true"></a>pbar &lt;-<span class="st"> </span><span class="kw">ggplot</span>(gbar, <span class="kw">aes</span>(x,y)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_col</span>() <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>() <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="ot">NULL</span>)</span>
+<span id="cb33-25"><a href="aplot.html#cb33-25" aria-hidden="true"></a>pline &lt;-<span class="st"> </span><span class="kw">ggplot</span>(gline, <span class="kw">aes</span>(x,y)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb33-26"><a href="aplot.html#cb33-26" aria-hidden="true"></a><span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">group =</span> <span class="dv">1</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>()</span>
+<span id="cb33-27"><a href="aplot.html#cb33-27" aria-hidden="true"></a></span>
+<span id="cb33-28"><a href="aplot.html#cb33-28" aria-hidden="true"></a>cowplot<span class="op">::</span><span class="kw">plot_grid</span>(ptre, pmat, pbar, pline, <span class="dt">ncol=</span><span class="dv">4</span>)</span>
+<span id="cb33-29"><a href="aplot.html#cb33-29" aria-hidden="true"></a></span>
+<span id="cb33-30"><a href="aplot.html#cb33-30" aria-hidden="true"></a><span class="kw">library</span>(aplot)</span>
+<span id="cb33-31"><a href="aplot.html#cb33-31" aria-hidden="true"></a></span>
+<span id="cb33-32"><a href="aplot.html#cb33-32" aria-hidden="true"></a>pmat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">insert_left</span>(ptre) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">insert_right</span>(pbar) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">insert_right</span>(pline)</span></code></pre></div>
+<p><img src="pkgdocs_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 <div id="annoHeatmap" class="section level3" number="4.2.3">
 <h3><span class="header-section-number">4.2.3</span> Creating annotated heatmap</h3>
 <p>The <code>xlim2()</code> and <code>ylim2()</code> functions create many possibilities to align figures. For instance, we can add column and row annotations around a heatmap in all sides (top, bottom, left and right). They can be aligned properly with the aids of <code>xlim2()</code> and <code>ylim2()</code> even with missing values presented as demonstrated in Figure <a href="aplot.html#fig:ggComplexHeatmap">4.3</a>.</p>
 
 
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="aplot.html#cb32-1" aria-hidden="true"></a><span class="kw">library</span>(tidyr)</span>
-<span id="cb32-2"><a href="aplot.html#cb32-2" aria-hidden="true"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb32-3"><a href="aplot.html#cb32-3" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb32-4"><a href="aplot.html#cb32-4" aria-hidden="true"></a></span>
-<span id="cb32-5"><a href="aplot.html#cb32-5" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">2019-11-07</span>)</span>
-<span id="cb32-6"><a href="aplot.html#cb32-6" aria-hidden="true"></a>d &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">25</span>), <span class="dt">ncol=</span><span class="dv">5</span>)</span>
-<span id="cb32-7"><a href="aplot.html#cb32-7" aria-hidden="true"></a><span class="kw">rownames</span>(d) &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;g&#39;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>)</span>
-<span id="cb32-8"><a href="aplot.html#cb32-8" aria-hidden="true"></a><span class="kw">colnames</span>(d) &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;t&#39;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>)</span>
-<span id="cb32-9"><a href="aplot.html#cb32-9" aria-hidden="true"></a>hc &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(d))</span>
-<span id="cb32-10"><a href="aplot.html#cb32-10" aria-hidden="true"></a>hcc &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(<span class="kw">t</span>(d)))</span>
-<span id="cb32-11"><a href="aplot.html#cb32-11" aria-hidden="true"></a>phr &lt;-<span class="st"> </span><span class="kw">ggtree</span>(hc)</span>
-<span id="cb32-12"><a href="aplot.html#cb32-12" aria-hidden="true"></a>phc &lt;-<span class="st"> </span><span class="kw">ggtree</span>(hcc) <span class="op">+</span><span class="st"> </span><span class="kw">layout_dendrogram</span>()</span>
-<span id="cb32-13"><a href="aplot.html#cb32-13" aria-hidden="true"></a></span>
-<span id="cb32-14"><a href="aplot.html#cb32-14" aria-hidden="true"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(d)</span>
-<span id="cb32-15"><a href="aplot.html#cb32-15" aria-hidden="true"></a>d<span class="op">$</span>gene &lt;-<span class="st"> </span><span class="kw">rownames</span>(d)</span>
-<span id="cb32-16"><a href="aplot.html#cb32-16" aria-hidden="true"></a>dd &lt;-<span class="st"> </span><span class="kw">gather</span>(d, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dt">key=</span><span class="st">&quot;condition&quot;</span>, <span class="dt">value=</span><span class="st">&#39;expr&#39;</span>)</span>
-<span id="cb32-17"><a href="aplot.html#cb32-17" aria-hidden="true"></a></span>
-<span id="cb32-18"><a href="aplot.html#cb32-18" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dd, <span class="kw">aes</span>(condition,gene, <span class="dt">fill=</span>expr)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tile</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb32-19"><a href="aplot.html#cb32-19" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>() <span class="op">+</span></span>
-<span id="cb32-20"><a href="aplot.html#cb32-20" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_y_discrete</span>(<span class="dt">position=</span><span class="st">&quot;right&quot;</span>) <span class="op">+</span></span>
-<span id="cb32-21"><a href="aplot.html#cb32-21" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb32-22"><a href="aplot.html#cb32-22" aria-hidden="true"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="ot">NULL</span>) </span>
-<span id="cb32-23"><a href="aplot.html#cb32-23" aria-hidden="true"></a></span>
-<span id="cb32-24"><a href="aplot.html#cb32-24" aria-hidden="true"></a>g &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dplyr<span class="op">::</span><span class="kw">filter</span>(dd, gene <span class="op">!=</span><span class="st"> &#39;g2&#39;</span>), <span class="kw">aes</span>(gene, expr, <span class="dt">fill=</span>gene)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb32-25"><a href="aplot.html#cb32-25" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>() <span class="op">+</span></span>
-<span id="cb32-26"><a href="aplot.html#cb32-26" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&#39;Set1&#39;</span>) <span class="op">+</span></span>
-<span id="cb32-27"><a href="aplot.html#cb32-27" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb32-28"><a href="aplot.html#cb32-28" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(), </span>
-<span id="cb32-29"><a href="aplot.html#cb32-29" aria-hidden="true"></a>        <span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>(),</span>
-<span id="cb32-30"><a href="aplot.html#cb32-30" aria-hidden="true"></a>        <span class="dt">panel.grid.minor =</span> <span class="kw">element_blank</span>(),</span>
-<span id="cb32-31"><a href="aplot.html#cb32-31" aria-hidden="true"></a>        <span class="dt">panel.grid.major.y =</span> <span class="kw">element_blank</span>()) <span class="op">+</span></span>
-<span id="cb32-32"><a href="aplot.html#cb32-32" aria-hidden="true"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="ot">NULL</span>) </span>
-<span id="cb32-33"><a href="aplot.html#cb32-33" aria-hidden="true"></a></span>
-<span id="cb32-34"><a href="aplot.html#cb32-34" aria-hidden="true"></a>ca &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">condition =</span> <span class="kw">paste0</span>(<span class="st">&#39;t&#39;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>), </span>
-<span id="cb32-35"><a href="aplot.html#cb32-35" aria-hidden="true"></a>                 <span class="dt">A1 =</span> <span class="kw">rep</span>(LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dt">times=</span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>)),</span>
-<span id="cb32-36"><a href="aplot.html#cb32-36" aria-hidden="true"></a>                 <span class="dt">A2 =</span> <span class="kw">rep</span>(letters[<span class="dv">3</span><span class="op">:</span><span class="dv">5</span>], <span class="dt">times=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
-<span id="cb32-37"><a href="aplot.html#cb32-37" aria-hidden="true"></a>)</span>
-<span id="cb32-38"><a href="aplot.html#cb32-38" aria-hidden="true"></a>cad &lt;-<span class="st"> </span><span class="kw">gather</span>(ca, A1, A2, <span class="dt">key=</span><span class="st">&#39;anno&#39;</span>, <span class="dt">value=</span><span class="st">&#39;type&#39;</span>)</span>
-<span id="cb32-39"><a href="aplot.html#cb32-39" aria-hidden="true"></a></span>
-<span id="cb32-40"><a href="aplot.html#cb32-40" aria-hidden="true"></a>pc &lt;-<span class="st"> </span><span class="kw">ggplot</span>(cad, <span class="kw">aes</span>(condition, <span class="dt">y=</span>anno, <span class="dt">fill=</span>type)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tile</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb32-41"><a href="aplot.html#cb32-41" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_y_discrete</span>(<span class="dt">position=</span><span class="st">&quot;right&quot;</span>) <span class="op">+</span></span>
-<span id="cb32-42"><a href="aplot.html#cb32-42" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb32-43"><a href="aplot.html#cb32-43" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>(), </span>
-<span id="cb32-44"><a href="aplot.html#cb32-44" aria-hidden="true"></a>        <span class="dt">axis.ticks.x =</span> <span class="kw">element_blank</span>()) <span class="op">+</span></span>
-<span id="cb32-45"><a href="aplot.html#cb32-45" aria-hidden="true"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="ot">NULL</span>) </span>
-<span id="cb32-46"><a href="aplot.html#cb32-46" aria-hidden="true"></a></span>
-<span id="cb32-47"><a href="aplot.html#cb32-47" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb32-48"><a href="aplot.html#cb32-48" aria-hidden="true"></a>dp &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">gene=</span><span class="kw">factor</span>(<span class="kw">rep</span>(<span class="kw">paste0</span>(<span class="st">&#39;g&#39;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>), <span class="dv">2</span>)), </span>
-<span id="cb32-49"><a href="aplot.html#cb32-49" aria-hidden="true"></a>                 <span class="dt">pathway =</span> <span class="kw">sample</span>(<span class="kw">paste0</span>(<span class="st">&#39;pathway&#39;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>), <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</span>
-<span id="cb32-50"><a href="aplot.html#cb32-50" aria-hidden="true"></a></span>
-<span id="cb32-51"><a href="aplot.html#cb32-51" aria-hidden="true"></a>pp &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dp, <span class="kw">aes</span>(pathway, gene)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb32-52"><a href="aplot.html#cb32-52" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size=</span><span class="dv">5</span>, <span class="dt">color=</span><span class="st">&#39;steelblue&#39;</span>) <span class="op">+</span></span>
-<span id="cb32-53"><a href="aplot.html#cb32-53" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
-<span id="cb32-54"><a href="aplot.html#cb32-54" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">angle=</span><span class="dv">90</span>, <span class="dt">hjust=</span><span class="dv">0</span>),</span>
-<span id="cb32-55"><a href="aplot.html#cb32-55" aria-hidden="true"></a>        <span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(), </span>
-<span id="cb32-56"><a href="aplot.html#cb32-56" aria-hidden="true"></a>        <span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>()) <span class="op">+</span></span>
-<span id="cb32-57"><a href="aplot.html#cb32-57" aria-hidden="true"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="ot">NULL</span>) </span>
-<span id="cb32-58"><a href="aplot.html#cb32-58" aria-hidden="true"></a></span>
-<span id="cb32-59"><a href="aplot.html#cb32-59" aria-hidden="true"></a></span>
-<span id="cb32-60"><a href="aplot.html#cb32-60" aria-hidden="true"></a>p <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">insert_left</span>(phr, <span class="dt">width=</span>.<span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb32-61"><a href="aplot.html#cb32-61" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_right</span>(pp, <span class="dt">width=</span>.<span class="dv">4</span>)  <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb32-62"><a href="aplot.html#cb32-62" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_right</span>(g, <span class="dt">width=</span>.<span class="dv">4</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb32-63"><a href="aplot.html#cb32-63" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_top</span>(pc, <span class="dt">height=</span>.<span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb32-64"><a href="aplot.html#cb32-64" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_top</span>(phc, <span class="dt">height=</span>.<span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="aplot.html#cb34-1" aria-hidden="true"></a><span class="kw">library</span>(tidyr)</span>
+<span id="cb34-2"><a href="aplot.html#cb34-2" aria-hidden="true"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb34-3"><a href="aplot.html#cb34-3" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb34-4"><a href="aplot.html#cb34-4" aria-hidden="true"></a></span>
+<span id="cb34-5"><a href="aplot.html#cb34-5" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">2019-11-07</span>)</span>
+<span id="cb34-6"><a href="aplot.html#cb34-6" aria-hidden="true"></a>d &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rnorm</span>(<span class="dv">25</span>), <span class="dt">ncol=</span><span class="dv">5</span>)</span>
+<span id="cb34-7"><a href="aplot.html#cb34-7" aria-hidden="true"></a><span class="kw">rownames</span>(d) &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;g&#39;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>)</span>
+<span id="cb34-8"><a href="aplot.html#cb34-8" aria-hidden="true"></a><span class="kw">colnames</span>(d) &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;t&#39;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>)</span>
+<span id="cb34-9"><a href="aplot.html#cb34-9" aria-hidden="true"></a>hc &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(d))</span>
+<span id="cb34-10"><a href="aplot.html#cb34-10" aria-hidden="true"></a>hcc &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(<span class="kw">t</span>(d)))</span>
+<span id="cb34-11"><a href="aplot.html#cb34-11" aria-hidden="true"></a>phr &lt;-<span class="st"> </span><span class="kw">ggtree</span>(hc)</span>
+<span id="cb34-12"><a href="aplot.html#cb34-12" aria-hidden="true"></a>phc &lt;-<span class="st"> </span><span class="kw">ggtree</span>(hcc) <span class="op">+</span><span class="st"> </span><span class="kw">layout_dendrogram</span>()</span>
+<span id="cb34-13"><a href="aplot.html#cb34-13" aria-hidden="true"></a></span>
+<span id="cb34-14"><a href="aplot.html#cb34-14" aria-hidden="true"></a>d &lt;-<span class="st"> </span><span class="kw">data.frame</span>(d)</span>
+<span id="cb34-15"><a href="aplot.html#cb34-15" aria-hidden="true"></a>d<span class="op">$</span>gene &lt;-<span class="st"> </span><span class="kw">rownames</span>(d)</span>
+<span id="cb34-16"><a href="aplot.html#cb34-16" aria-hidden="true"></a>dd &lt;-<span class="st"> </span><span class="kw">gather</span>(d, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dt">key=</span><span class="st">&quot;condition&quot;</span>, <span class="dt">value=</span><span class="st">&#39;expr&#39;</span>)</span>
+<span id="cb34-17"><a href="aplot.html#cb34-17" aria-hidden="true"></a></span>
+<span id="cb34-18"><a href="aplot.html#cb34-18" aria-hidden="true"></a>p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dd, <span class="kw">aes</span>(condition,gene, <span class="dt">fill=</span>expr)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tile</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb34-19"><a href="aplot.html#cb34-19" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>() <span class="op">+</span></span>
+<span id="cb34-20"><a href="aplot.html#cb34-20" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_y_discrete</span>(<span class="dt">position=</span><span class="st">&quot;right&quot;</span>) <span class="op">+</span></span>
+<span id="cb34-21"><a href="aplot.html#cb34-21" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb34-22"><a href="aplot.html#cb34-22" aria-hidden="true"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="ot">NULL</span>) </span>
+<span id="cb34-23"><a href="aplot.html#cb34-23" aria-hidden="true"></a></span>
+<span id="cb34-24"><a href="aplot.html#cb34-24" aria-hidden="true"></a>g &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dplyr<span class="op">::</span><span class="kw">filter</span>(dd, gene <span class="op">!=</span><span class="st"> &#39;g2&#39;</span>), <span class="kw">aes</span>(gene, expr, <span class="dt">fill=</span>gene)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb34-25"><a href="aplot.html#cb34-25" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>() <span class="op">+</span></span>
+<span id="cb34-26"><a href="aplot.html#cb34-26" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&#39;Set1&#39;</span>) <span class="op">+</span></span>
+<span id="cb34-27"><a href="aplot.html#cb34-27" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb34-28"><a href="aplot.html#cb34-28" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(), </span>
+<span id="cb34-29"><a href="aplot.html#cb34-29" aria-hidden="true"></a>        <span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb34-30"><a href="aplot.html#cb34-30" aria-hidden="true"></a>        <span class="dt">panel.grid.minor =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb34-31"><a href="aplot.html#cb34-31" aria-hidden="true"></a>        <span class="dt">panel.grid.major.y =</span> <span class="kw">element_blank</span>()) <span class="op">+</span></span>
+<span id="cb34-32"><a href="aplot.html#cb34-32" aria-hidden="true"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="ot">NULL</span>) </span>
+<span id="cb34-33"><a href="aplot.html#cb34-33" aria-hidden="true"></a></span>
+<span id="cb34-34"><a href="aplot.html#cb34-34" aria-hidden="true"></a>ca &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">condition =</span> <span class="kw">paste0</span>(<span class="st">&#39;t&#39;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>), </span>
+<span id="cb34-35"><a href="aplot.html#cb34-35" aria-hidden="true"></a>                 <span class="dt">A1 =</span> <span class="kw">rep</span>(LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dt">times=</span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>)),</span>
+<span id="cb34-36"><a href="aplot.html#cb34-36" aria-hidden="true"></a>                 <span class="dt">A2 =</span> <span class="kw">rep</span>(letters[<span class="dv">3</span><span class="op">:</span><span class="dv">5</span>], <span class="dt">times=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span>
+<span id="cb34-37"><a href="aplot.html#cb34-37" aria-hidden="true"></a>)</span>
+<span id="cb34-38"><a href="aplot.html#cb34-38" aria-hidden="true"></a>cad &lt;-<span class="st"> </span><span class="kw">gather</span>(ca, A1, A2, <span class="dt">key=</span><span class="st">&#39;anno&#39;</span>, <span class="dt">value=</span><span class="st">&#39;type&#39;</span>)</span>
+<span id="cb34-39"><a href="aplot.html#cb34-39" aria-hidden="true"></a></span>
+<span id="cb34-40"><a href="aplot.html#cb34-40" aria-hidden="true"></a>pc &lt;-<span class="st"> </span><span class="kw">ggplot</span>(cad, <span class="kw">aes</span>(condition, <span class="dt">y=</span>anno, <span class="dt">fill=</span>type)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tile</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb34-41"><a href="aplot.html#cb34-41" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_y_discrete</span>(<span class="dt">position=</span><span class="st">&quot;right&quot;</span>) <span class="op">+</span></span>
+<span id="cb34-42"><a href="aplot.html#cb34-42" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb34-43"><a href="aplot.html#cb34-43" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>(), </span>
+<span id="cb34-44"><a href="aplot.html#cb34-44" aria-hidden="true"></a>        <span class="dt">axis.ticks.x =</span> <span class="kw">element_blank</span>()) <span class="op">+</span></span>
+<span id="cb34-45"><a href="aplot.html#cb34-45" aria-hidden="true"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="ot">NULL</span>) </span>
+<span id="cb34-46"><a href="aplot.html#cb34-46" aria-hidden="true"></a></span>
+<span id="cb34-47"><a href="aplot.html#cb34-47" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb34-48"><a href="aplot.html#cb34-48" aria-hidden="true"></a>dp &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">gene=</span><span class="kw">factor</span>(<span class="kw">rep</span>(<span class="kw">paste0</span>(<span class="st">&#39;g&#39;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>), <span class="dv">2</span>)), </span>
+<span id="cb34-49"><a href="aplot.html#cb34-49" aria-hidden="true"></a>                 <span class="dt">pathway =</span> <span class="kw">sample</span>(<span class="kw">paste0</span>(<span class="st">&#39;pathway&#39;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>), <span class="dv">10</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</span>
+<span id="cb34-50"><a href="aplot.html#cb34-50" aria-hidden="true"></a></span>
+<span id="cb34-51"><a href="aplot.html#cb34-51" aria-hidden="true"></a>pp &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dp, <span class="kw">aes</span>(pathway, gene)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb34-52"><a href="aplot.html#cb34-52" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size=</span><span class="dv">5</span>, <span class="dt">color=</span><span class="st">&#39;steelblue&#39;</span>) <span class="op">+</span></span>
+<span id="cb34-53"><a href="aplot.html#cb34-53" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
+<span id="cb34-54"><a href="aplot.html#cb34-54" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">angle=</span><span class="dv">90</span>, <span class="dt">hjust=</span><span class="dv">0</span>),</span>
+<span id="cb34-55"><a href="aplot.html#cb34-55" aria-hidden="true"></a>        <span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(), </span>
+<span id="cb34-56"><a href="aplot.html#cb34-56" aria-hidden="true"></a>        <span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>()) <span class="op">+</span></span>
+<span id="cb34-57"><a href="aplot.html#cb34-57" aria-hidden="true"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ylab</span>(<span class="ot">NULL</span>) </span>
+<span id="cb34-58"><a href="aplot.html#cb34-58" aria-hidden="true"></a></span>
+<span id="cb34-59"><a href="aplot.html#cb34-59" aria-hidden="true"></a></span>
+<span id="cb34-60"><a href="aplot.html#cb34-60" aria-hidden="true"></a>p <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">insert_left</span>(phr, <span class="dt">width=</span>.<span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb34-61"><a href="aplot.html#cb34-61" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_right</span>(pp, <span class="dt">width=</span>.<span class="dv">4</span>)  <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb34-62"><a href="aplot.html#cb34-62" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_right</span>(g, <span class="dt">width=</span>.<span class="dv">4</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb34-63"><a href="aplot.html#cb34-63" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_top</span>(pc, <span class="dt">height=</span>.<span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb34-64"><a href="aplot.html#cb34-64" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_top</span>(phc, <span class="dt">height=</span>.<span class="dv">2</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:ggComplexHeatmap"></span>
 <img src="pkgdocs_files/figure-html/ggComplexHeatmap-1.png" alt="Create complex heatmap. With the helps of xlim2() and ylim2(), it is easy to align row or column annotations around a figure (e.g. a heatmap)." width="912" />
 <p class="caption">
@@ -398,60 +471,60 @@ Another solution is to tweak xlim2 and ylim2, without affect of the plot expansi
 <div id="a-single-cell-example" class="section level3" number="4.2.4">
 <h3><span class="header-section-number">4.2.4</span> A single cell example</h3>
 <p>Example taken from <a href="https://davemcg.github.io/post/lets-plot-scrna-dotplots/" class="uri">https://davemcg.github.io/post/lets-plot-scrna-dotplots/</a></p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="aplot.html#cb33-1" aria-hidden="true"></a><span class="kw">library</span>(readr)</span>
-<span id="cb33-2"><a href="aplot.html#cb33-2" aria-hidden="true"></a><span class="kw">library</span>(tidyr)</span>
-<span id="cb33-3"><a href="aplot.html#cb33-3" aria-hidden="true"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb33-4"><a href="aplot.html#cb33-4" aria-hidden="true"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb33-5"><a href="aplot.html#cb33-5" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
-<span id="cb33-6"><a href="aplot.html#cb33-6" aria-hidden="true"></a></span>
-<span id="cb33-7"><a href="aplot.html#cb33-7" aria-hidden="true"></a>file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;scRNA_dotplot_data.tsv.gz&quot;</span>, <span class="dt">package=</span><span class="st">&quot;aplot&quot;</span>)</span>
-<span id="cb33-8"><a href="aplot.html#cb33-8" aria-hidden="true"></a>gene_cluster &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(file)</span>
-<span id="cb33-9"><a href="aplot.html#cb33-9" aria-hidden="true"></a></span>
-<span id="cb33-10"><a href="aplot.html#cb33-10" aria-hidden="true"></a>dot_plot &lt;-<span class="st"> </span>gene_cluster <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb33-11"><a href="aplot.html#cb33-11" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">% Expressing</span><span class="st">`</span> =<span class="st"> </span>(cell_exp_ct<span class="op">/</span>cell_ct) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb33-12"><a href="aplot.html#cb33-12" aria-hidden="true"></a><span class="st">  </span><span class="kw">filter</span>(count <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="st">`</span><span class="dt">% Expressing</span><span class="st">`</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb33-13"><a href="aplot.html#cb33-13" aria-hidden="true"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>cluster, <span class="dt">y =</span> Gene, <span class="dt">color =</span> count, <span class="dt">size =</span> <span class="st">`</span><span class="dt">% Expressing</span><span class="st">`</span>)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb33-14"><a href="aplot.html#cb33-14" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb33-15"><a href="aplot.html#cb33-15" aria-hidden="true"></a><span class="st">  </span>cowplot<span class="op">::</span><span class="kw">theme_cowplot</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb33-16"><a href="aplot.html#cb33-16" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.line  =</span> <span class="kw">element_blank</span>()) <span class="op">+</span></span>
-<span id="cb33-17"><a href="aplot.html#cb33-17" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, <span class="dt">hjust=</span><span class="dv">1</span>)) <span class="op">+</span></span>
-<span id="cb33-18"><a href="aplot.html#cb33-18" aria-hidden="true"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="ot">NULL</span>) <span class="op">+</span></span>
-<span id="cb33-19"><a href="aplot.html#cb33-19" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.ticks =</span> <span class="kw">element_blank</span>()) <span class="op">+</span></span>
-<span id="cb33-20"><a href="aplot.html#cb33-20" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_color_gradientn</span>(<span class="dt">colours =</span> viridis<span class="op">::</span><span class="kw">viridis</span>(<span class="dv">20</span>), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">4</span>), <span class="dt">oob =</span> scales<span class="op">::</span>squish, <span class="dt">name =</span> <span class="st">&#39;log2 (count + 1)&#39;</span>) <span class="op">+</span></span>
-<span id="cb33-21"><a href="aplot.html#cb33-21" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_y_discrete</span>(<span class="dt">position =</span> <span class="st">&quot;right&quot;</span>)</span>
-<span id="cb33-22"><a href="aplot.html#cb33-22" aria-hidden="true"></a></span>
-<span id="cb33-23"><a href="aplot.html#cb33-23" aria-hidden="true"></a></span>
-<span id="cb33-24"><a href="aplot.html#cb33-24" aria-hidden="true"></a>mat &lt;-<span class="st"> </span>gene_cluster <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb33-25"><a href="aplot.html#cb33-25" aria-hidden="true"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>cell_ct, <span class="op">-</span>cell_exp_ct, <span class="op">-</span>Group) <span class="op">%&gt;%</span><span class="st">  </span><span class="co"># drop unused columns to faciliate widening</span></span>
-<span id="cb33-26"><a href="aplot.html#cb33-26" aria-hidden="true"></a><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> cluster, <span class="dt">values_from =</span> count) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb33-27"><a href="aplot.html#cb33-27" aria-hidden="true"></a><span class="st">  </span><span class="kw">data.frame</span>() <span class="co"># make df as tibbles -&gt; matrix annoying</span></span>
-<span id="cb33-28"><a href="aplot.html#cb33-28" aria-hidden="true"></a><span class="kw">row.names</span>(mat) &lt;-<span class="st"> </span>mat<span class="op">$</span>Gene  <span class="co"># put gene in `row`</span></span>
-<span id="cb33-29"><a href="aplot.html#cb33-29" aria-hidden="true"></a>mat &lt;-<span class="st"> </span>mat[,<span class="op">-</span><span class="dv">1</span>] <span class="co">#drop gene column as now in rows</span></span>
-<span id="cb33-30"><a href="aplot.html#cb33-30" aria-hidden="true"></a>clust &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(mat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>())) <span class="co"># hclust with distance matrix</span></span>
-<span id="cb33-31"><a href="aplot.html#cb33-31" aria-hidden="true"></a></span>
-<span id="cb33-32"><a href="aplot.html#cb33-32" aria-hidden="true"></a>ggtree_plot &lt;-<span class="st"> </span>ggtree<span class="op">::</span><span class="kw">ggtree</span>(clust)</span>
-<span id="cb33-33"><a href="aplot.html#cb33-33" aria-hidden="true"></a></span>
-<span id="cb33-34"><a href="aplot.html#cb33-34" aria-hidden="true"></a>v_clust &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(mat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">t</span>()))</span>
-<span id="cb33-35"><a href="aplot.html#cb33-35" aria-hidden="true"></a>ggtree_plot_col &lt;-<span class="st"> </span><span class="kw">ggtree</span>(v_clust) <span class="op">+</span><span class="st"> </span><span class="kw">layout_dendrogram</span>()</span>
-<span id="cb33-36"><a href="aplot.html#cb33-36" aria-hidden="true"></a></span>
-<span id="cb33-37"><a href="aplot.html#cb33-37" aria-hidden="true"></a></span>
-<span id="cb33-38"><a href="aplot.html#cb33-38" aria-hidden="true"></a>labels=<span class="st"> </span><span class="kw">ggplot</span>(gene_cluster, <span class="kw">aes</span>(cluster, <span class="dt">y=</span><span class="dv">1</span>, <span class="dt">fill=</span>Group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tile</span>() <span class="op">+</span></span>
-<span id="cb33-39"><a href="aplot.html#cb33-39" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&#39;Set1&#39;</span>,<span class="dt">name=</span><span class="st">&quot;Cell Type&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb33-40"><a href="aplot.html#cb33-40" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme_void</span>() </span>
-<span id="cb33-41"><a href="aplot.html#cb33-41" aria-hidden="true"></a></span>
-<span id="cb33-42"><a href="aplot.html#cb33-42" aria-hidden="true"></a><span class="kw">library</span>(patchwork)</span>
-<span id="cb33-43"><a href="aplot.html#cb33-43" aria-hidden="true"></a>ggtree_plot <span class="op">|</span><span class="st"> </span>dot_plot <span class="op">|</span><span class="st"> </span>(ggtree_plot_col <span class="op">/</span><span class="st"> </span>labels)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="aplot.html#cb35-1" aria-hidden="true"></a><span class="kw">library</span>(readr)</span>
+<span id="cb35-2"><a href="aplot.html#cb35-2" aria-hidden="true"></a><span class="kw">library</span>(tidyr)</span>
+<span id="cb35-3"><a href="aplot.html#cb35-3" aria-hidden="true"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb35-4"><a href="aplot.html#cb35-4" aria-hidden="true"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb35-5"><a href="aplot.html#cb35-5" aria-hidden="true"></a><span class="kw">library</span>(ggtree)</span>
+<span id="cb35-6"><a href="aplot.html#cb35-6" aria-hidden="true"></a></span>
+<span id="cb35-7"><a href="aplot.html#cb35-7" aria-hidden="true"></a>file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;scRNA_dotplot_data.tsv.gz&quot;</span>, <span class="dt">package=</span><span class="st">&quot;aplot&quot;</span>)</span>
+<span id="cb35-8"><a href="aplot.html#cb35-8" aria-hidden="true"></a>gene_cluster &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(file)</span>
+<span id="cb35-9"><a href="aplot.html#cb35-9" aria-hidden="true"></a></span>
+<span id="cb35-10"><a href="aplot.html#cb35-10" aria-hidden="true"></a>dot_plot &lt;-<span class="st"> </span>gene_cluster <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb35-11"><a href="aplot.html#cb35-11" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="st">`</span><span class="dt">% Expressing</span><span class="st">`</span> =<span class="st"> </span>(cell_exp_ct<span class="op">/</span>cell_ct) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb35-12"><a href="aplot.html#cb35-12" aria-hidden="true"></a><span class="st">  </span><span class="kw">filter</span>(count <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="st">`</span><span class="dt">% Expressing</span><span class="st">`</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb35-13"><a href="aplot.html#cb35-13" aria-hidden="true"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>cluster, <span class="dt">y =</span> Gene, <span class="dt">color =</span> count, <span class="dt">size =</span> <span class="st">`</span><span class="dt">% Expressing</span><span class="st">`</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb35-14"><a href="aplot.html#cb35-14" aria-hidden="true"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb35-15"><a href="aplot.html#cb35-15" aria-hidden="true"></a><span class="st">  </span>cowplot<span class="op">::</span><span class="kw">theme_cowplot</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb35-16"><a href="aplot.html#cb35-16" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.line  =</span> <span class="kw">element_blank</span>()) <span class="op">+</span></span>
+<span id="cb35-17"><a href="aplot.html#cb35-17" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, <span class="dt">hjust=</span><span class="dv">1</span>)) <span class="op">+</span></span>
+<span id="cb35-18"><a href="aplot.html#cb35-18" aria-hidden="true"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="ot">NULL</span>) <span class="op">+</span></span>
+<span id="cb35-19"><a href="aplot.html#cb35-19" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.ticks =</span> <span class="kw">element_blank</span>()) <span class="op">+</span></span>
+<span id="cb35-20"><a href="aplot.html#cb35-20" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_color_gradientn</span>(<span class="dt">colours =</span> viridis<span class="op">::</span><span class="kw">viridis</span>(<span class="dv">20</span>), <span class="dt">limits =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">4</span>), <span class="dt">oob =</span> scales<span class="op">::</span>squish, <span class="dt">name =</span> <span class="st">&#39;log2 (count + 1)&#39;</span>) <span class="op">+</span></span>
+<span id="cb35-21"><a href="aplot.html#cb35-21" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_y_discrete</span>(<span class="dt">position =</span> <span class="st">&quot;right&quot;</span>)</span>
+<span id="cb35-22"><a href="aplot.html#cb35-22" aria-hidden="true"></a></span>
+<span id="cb35-23"><a href="aplot.html#cb35-23" aria-hidden="true"></a></span>
+<span id="cb35-24"><a href="aplot.html#cb35-24" aria-hidden="true"></a>mat &lt;-<span class="st"> </span>gene_cluster <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb35-25"><a href="aplot.html#cb35-25" aria-hidden="true"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>cell_ct, <span class="op">-</span>cell_exp_ct, <span class="op">-</span>Group) <span class="op">%&gt;%</span><span class="st">  </span><span class="co"># drop unused columns to faciliate widening</span></span>
+<span id="cb35-26"><a href="aplot.html#cb35-26" aria-hidden="true"></a><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> cluster, <span class="dt">values_from =</span> count) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb35-27"><a href="aplot.html#cb35-27" aria-hidden="true"></a><span class="st">  </span><span class="kw">data.frame</span>() <span class="co"># make df as tibbles -&gt; matrix annoying</span></span>
+<span id="cb35-28"><a href="aplot.html#cb35-28" aria-hidden="true"></a><span class="kw">row.names</span>(mat) &lt;-<span class="st"> </span>mat<span class="op">$</span>Gene  <span class="co"># put gene in `row`</span></span>
+<span id="cb35-29"><a href="aplot.html#cb35-29" aria-hidden="true"></a>mat &lt;-<span class="st"> </span>mat[,<span class="op">-</span><span class="dv">1</span>] <span class="co">#drop gene column as now in rows</span></span>
+<span id="cb35-30"><a href="aplot.html#cb35-30" aria-hidden="true"></a>clust &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(mat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>())) <span class="co"># hclust with distance matrix</span></span>
+<span id="cb35-31"><a href="aplot.html#cb35-31" aria-hidden="true"></a></span>
+<span id="cb35-32"><a href="aplot.html#cb35-32" aria-hidden="true"></a>ggtree_plot &lt;-<span class="st"> </span>ggtree<span class="op">::</span><span class="kw">ggtree</span>(clust)</span>
+<span id="cb35-33"><a href="aplot.html#cb35-33" aria-hidden="true"></a></span>
+<span id="cb35-34"><a href="aplot.html#cb35-34" aria-hidden="true"></a>v_clust &lt;-<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(mat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">t</span>()))</span>
+<span id="cb35-35"><a href="aplot.html#cb35-35" aria-hidden="true"></a>ggtree_plot_col &lt;-<span class="st"> </span><span class="kw">ggtree</span>(v_clust) <span class="op">+</span><span class="st"> </span><span class="kw">layout_dendrogram</span>()</span>
+<span id="cb35-36"><a href="aplot.html#cb35-36" aria-hidden="true"></a></span>
+<span id="cb35-37"><a href="aplot.html#cb35-37" aria-hidden="true"></a></span>
+<span id="cb35-38"><a href="aplot.html#cb35-38" aria-hidden="true"></a>labels=<span class="st"> </span><span class="kw">ggplot</span>(gene_cluster, <span class="kw">aes</span>(cluster, <span class="dt">y=</span><span class="dv">1</span>, <span class="dt">fill=</span>Group)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tile</span>() <span class="op">+</span></span>
+<span id="cb35-39"><a href="aplot.html#cb35-39" aria-hidden="true"></a><span class="st">  </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette =</span> <span class="st">&#39;Set1&#39;</span>,<span class="dt">name=</span><span class="st">&quot;Cell Type&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb35-40"><a href="aplot.html#cb35-40" aria-hidden="true"></a><span class="st">  </span><span class="kw">theme_void</span>() </span>
+<span id="cb35-41"><a href="aplot.html#cb35-41" aria-hidden="true"></a></span>
+<span id="cb35-42"><a href="aplot.html#cb35-42" aria-hidden="true"></a><span class="kw">library</span>(patchwork)</span>
+<span id="cb35-43"><a href="aplot.html#cb35-43" aria-hidden="true"></a>ggtree_plot <span class="op">|</span><span class="st"> </span>dot_plot <span class="op">|</span><span class="st"> </span>(ggtree_plot_col <span class="op">/</span><span class="st"> </span>labels)</span></code></pre></div>
 <p><img src="pkgdocs_files/figure-html/originPlot-1.png" width="1152" /></p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="aplot.html#cb34-1" aria-hidden="true"></a><span class="kw">library</span>(aplot)</span>
-<span id="cb34-2"><a href="aplot.html#cb34-2" aria-hidden="true"></a><span class="co">## the rows of the dot_plot was automatically reorder based on the tree</span></span>
-<span id="cb34-3"><a href="aplot.html#cb34-3" aria-hidden="true"></a>dot_plot <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb34-4"><a href="aplot.html#cb34-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_left</span>(ggtree_plot, <span class="dt">width=</span>.<span class="dv">2</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="aplot.html#cb36-1" aria-hidden="true"></a><span class="kw">library</span>(aplot)</span>
+<span id="cb36-2"><a href="aplot.html#cb36-2" aria-hidden="true"></a><span class="co">## the rows of the dot_plot was automatically reorder based on the tree</span></span>
+<span id="cb36-3"><a href="aplot.html#cb36-3" aria-hidden="true"></a>dot_plot <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb36-4"><a href="aplot.html#cb36-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_left</span>(ggtree_plot, <span class="dt">width=</span>.<span class="dv">2</span>) </span></code></pre></div>
 <p><img src="pkgdocs_files/figure-html/dotTree-1.png" width="768" /></p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="aplot.html#cb35-1" aria-hidden="true"></a><span class="co">## the columns of the dot_plot was automatically reorder based on the tree</span></span>
-<span id="cb35-2"><a href="aplot.html#cb35-2" aria-hidden="true"></a>dot_plot <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb35-3"><a href="aplot.html#cb35-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_left</span>(ggtree_plot, <span class="dt">width=</span>.<span class="dv">2</span>) <span class="op">%&gt;%</span></span>
-<span id="cb35-4"><a href="aplot.html#cb35-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_top</span>(labels, <span class="dt">height=</span>.<span class="dv">02</span>) <span class="op">%&gt;%</span></span>
-<span id="cb35-5"><a href="aplot.html#cb35-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_top</span>(ggtree_plot_col, <span class="dt">height=</span>.<span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="aplot.html#cb37-1" aria-hidden="true"></a><span class="co">## the columns of the dot_plot was automatically reorder based on the tree</span></span>
+<span id="cb37-2"><a href="aplot.html#cb37-2" aria-hidden="true"></a>dot_plot <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb37-3"><a href="aplot.html#cb37-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_left</span>(ggtree_plot, <span class="dt">width=</span>.<span class="dv">2</span>) <span class="op">%&gt;%</span></span>
+<span id="cb37-4"><a href="aplot.html#cb37-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_top</span>(labels, <span class="dt">height=</span>.<span class="dv">02</span>) <span class="op">%&gt;%</span></span>
+<span id="cb37-5"><a href="aplot.html#cb37-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">insert_top</span>(ggtree_plot_col, <span class="dt">height=</span>.<span class="dv">1</span>)</span></code></pre></div>
 <p><img src="pkgdocs_files/figure-html/dotTree2-1.png" width="768" /></p>
 
 </div>

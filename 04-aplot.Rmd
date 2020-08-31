@@ -151,6 +151,87 @@ If we insert a `ggtree` object in `aplot`, it will transform other plots in the 
 p2 %>% insert_left(p)
 ```
 
+Example from <https://github.com/YuLab-SMU/ggtree/issues/339>.
+
+```{r}
+require(ggtree)
+require(ggplot2)
+require(dplyr)
+require(gggenes)
+
+tree <- read.tree("data/nbh.nwk")
+nbh <- read.csv("data/nbh.csv")
+
+tree_plot <- ggtree(tree) +
+  geom_tiplab(aes(label=label))  
+
+
+nbh_plot <- ggplot(
+  (nbh %>% select(label, block_id,pid,start,end,strand) %>% distinct()),
+  aes(xmin = start, xmax = end, y = block_id, forward = strand) # as_factor(block_id)
+) +
+  geom_gene_arrow() + 
+  #scale_fill_brewer(palette = "Set3") +
+  theme_genes() %+replace% 
+  theme(panel.grid.major.y = element_line(colour = NULL)) + # , linetype = "dotted")) +
+  #theme_classic() +
+  theme(
+    axis.title.x=element_blank(),
+    #axis.text.x=element_blank(),
+    axis.ticks.x=element_blank(), 
+    #axis.line.x = element_blank(),
+    axis.title.y=element_blank(),
+    #axis.text.y=element_blank(),
+    axis.ticks.y=element_blank(), 
+    axis.line.y = element_blank()
+  ) 
+
+
+require(aplot)
+
+insert_left(nbh_plot, tree_plot)
+```
+
+
+Example from <https://github.com/YuLab-SMU/ggtree/issues/313>.
+
+
+```{r}
+
+set.seed(20200618)
+
+## Create a random tree
+tre <- rtree(10)
+tre$tip.label <- letters[1:10]
+
+## Build matrix with some random numbers in long format so can be plotted as "heatmap" using geom_tile
+gmat <- expand.grid(x = letters[1:10], y = letters[1:10])
+gmat$v <- rexp(100, rate=.1)
+
+## Generate some reandom numbres for a line plot
+gline <- tibble(x = letters[1:10], y = rnorm(10, 10, 2))
+
+## Generate some random percentages for a bar plot
+gbar <- tibble(x = letters[1:10], y = round(runif(10) * 100,1))
+
+## Construct ggtree
+ptre <- ggtree(tre) + geom_tiplab() + 
+    geom_nodepoint(colour = 'firebrick', size=3) 
+
+
+## Constuct companion plots
+pmat <- ggplot(gmat, aes(x,y, fill=v)) + geom_tile()
+pbar <- ggplot(gbar, aes(x,y)) + geom_col() + coord_flip() + ylab(NULL)
+pline <- ggplot(gline, aes(x,y)) + 
+    geom_line(aes(group = 1)) + geom_point() + coord_flip()
+
+cowplot::plot_grid(ptre, pmat, pbar, pline, ncol=4)
+
+library(aplot)
+
+pmat %>% insert_left(ptre) %>% insert_right(pbar) %>% insert_right(pline)
+```
+
 
 ### Creating annotated heatmap {#annoHeatmap}
 
